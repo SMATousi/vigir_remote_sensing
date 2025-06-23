@@ -1,0 +1,44 @@
+# ------------------------------------------------------------------
+# PlanetScope download configuration
+# ------------------------------------------------------------------
+
+# ─── Area of interest ──────────────────────────────────────────────
+# Supply *either* an external GeoJSON file path *or* an inline geometry.
+# If both are present, the file wins.
+aoi:
+  geojson_file: "./my_aoi.geojson"     # path to GeoJSON polygon   (OPTION A)
+  geometry:                            # inline Polygon            (OPTION B)
+    type: Polygon
+    coordinates:
+      - [
+          [-92.370509,38.981636],
+          [-92.353630,38.981376],
+          [-92.356170,38.969190],
+          [-92.371077,38.968657]
+        ]
+
+# ─── Time window (UTC, ISO-8601) ──────────────────────────────────
+date_range:
+  start: "2025-06-01T00:00:00Z"
+  end:   "2025-06-02T23:59:59Z"
+
+# ─── Planet item & asset types ────────────────────────────────────
+item_types:
+  - PSScene                # 4- or 8-band PlanetScope scenes
+asset_types:
+  - basic_analytic_8b      # surface-reflectance GeoTIFF
+  - basic_analytic_4b
+
+# ─── Basic quality filters ────────────────────────────────────────
+cloud_cover:
+  max: 0.10                # images with ≤ 10 % cloud_cover
+
+# ─── Download behaviour ───────────────────────────────────────────
+output:
+  directory: "./planet_downloads"
+  clip_to_aoi: false       # set true if you later add a clipping step
+  overwrite: false         # skip a file if it already exists
+
+download:
+  max_parallel: 2          # concurrent downloads
+  chunk_size: 8192         # bytes per stream chunk
