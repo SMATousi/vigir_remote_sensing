@@ -87,11 +87,12 @@ def activate(asset_url: str, api_key: str) -> Dict[str, Any]:
     while True:
         asset = requests.get(asset_url, auth=(api_key, "")).json()
         status = asset["status"]
+        print("Asset status: ", status)
         if status == "active":
             return asset
         if status == "inactive":
             requests.post(asset["_links"]["activate"], auth=(api_key, ""))
-        time.sleep(10)
+        time.sleep(2)
 
 
 def download_asset(url: str, target: pathlib.Path, chunk: int = 8192) -> None:
@@ -112,7 +113,7 @@ def process_item(
     item_type = item["properties"]["item_type"]
     assets_url = f"{API_ROOT}/item-types/{item_type}/items/{item_id}/assets/"
     assets = requests.get(assets_url, auth=(api_key, "")).json()
-    print(assets)
+    # print(assets)
 
     for asset_type in cfg["asset_types"]:
         if asset_type not in assets:
@@ -129,7 +130,8 @@ def process_item(
             print(f"• Skipping existing {target}")
             continue
 
-        asset_json = activate(assets[asset_type]["_links"]["self"], api_key)
+        # print(assets[asset_type]["_links"])
+        asset_json = activate(assets[asset_type]["_links"]["_self"], api_key)
         print(f"↓ {item_id}:{asset_type} → {target}")
         download_asset(asset_json["location"], target, cfg["download"]["chunk_size"])
         print(f"✓ Saved {target}")
@@ -141,7 +143,7 @@ def main() -> None:
     api_key = get_api_key()
 
     items = search_items(cfg, api_key)
-    print(items)
+    # print(items)
     print(f"Found {len(items)} scenes.")
 
     # parallel downloads

@@ -26,8 +26,9 @@ date_range:
 item_types:
   - PSScene                # 4- or 8-band PlanetScope scenes
 asset_types:
-  - basic_analytic_8b      # surface-reflectance GeoTIFF
-  - basic_analytic_4b
+  # - basic_analytic_8b      # surface-reflectance GeoTIFF
+  # - basic_analytic_4b 
+  - ortho_visual
 
 # ─── Basic quality filters ────────────────────────────────────────
 cloud_cover:
