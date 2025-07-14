@@ -23,4 +23,4 @@ TestResults.xml
 
 data_downlaoding/PlanetScope/planet_downloads
 data_downlaoding/fields
-ndvi_calculation/ndvi_outputs
+# ndvi_calculation/ndvi_outputs
