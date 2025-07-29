@@ -1,0 +1,6 @@
+"60074"|"Bucklick silty clay loam, 9 to 14 percent slopes, eroded"|"Consociation"||12308|||||||"Farmland of statewide importance"|||||"Order 2"||||||"11586"|"184778"
+"50008"|"Keswick silt loam, 5 to 9 percent slopes, eroded"|"Consociation"||51558|||||||"Not prime farmland"|||||"Order 2"||||||"11586"|"2532590"
+"50059"|"Mexico silt loam, 1 to 4 percent slopes, eroded"|"Consociation"||31519|||||||"Farmland of statewide importance"|||||"Order 2"||||||"11586"|"2532767"
+"60073"|"Bucklick silty clay loam, 5 to 9 percent slopes, eroded"|"Consociation"||2803|||||||"Farmland of statewide importance"|||||"Order 2"||||||"11586"|"2533061"
+"60084"|"Crider silt loam, 5 to 9 percent slopes, eroded"|"Consociation"||8714|||||||"Farmland of statewide importance"|||||"Order 2"||||||"11586"|"2533076"
+"60126"|"Hatton silt loam, 2 to 5 percent slopes"|"Consociation"||20904|||||||"Not prime farmland"|||||"Order 2"||||||"11586"|"2533143"

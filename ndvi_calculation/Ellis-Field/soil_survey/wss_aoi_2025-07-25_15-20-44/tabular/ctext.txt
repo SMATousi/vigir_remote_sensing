@@ -1,0 +1,273 @@
+03/24/2024 00:00:00|"Nontechnical description"|"GENSOIL"|"generated"|"Generated brief soil descriptions are created for major soil components.  The Goss soil is a minor component."|"25330343"|"27185873"
+06/17/2014 00:00:00|"Correlation notes"|"calc interp factors"||"Per National Bulletin 430-14-3, the following national calculations were run on all components in data mapunits assigned to Soil Survey Region 11 in Missouri: K-factor (both Kw and Kf); T-factor; Wind Erodibility Group (WEG); Wind Erodibility Index (WEI); Hydrologic Soil Group (HSG); Steel Corrosion; and Concrete Corrosion.  In addition, the calculation to generate non-technical descriptions was run. These calculations were run on all components regardless if previously calculated to ensure that the calculated result reflect the most current calculation model and populated data.  "|"25330343"|"27185875"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_class"|"3"|"25330343"|"27185876"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_equip_rating"|"slight"|"25330343"|"27185877"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_seedlng_mort"|"slight"|"25330343"|"27185878"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_ero_rating"|"slight"|"25330343"|"27185879"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_subclass"|"a"|"25330343"|"27185880"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_subclass"|"a"|"25330343"|"27185881"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_seedlng_mort"|"slight"|"25330343"|"27185882"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_ero_rating"|"slight"|"25330343"|"27185883"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_wndthrow_hzd"|"slight"|"25330343"|"27185884"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_class"|"3"|"25330343"|"27185885"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_equip_rating"|"slight"|"25330343"|"27185886"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_plant_rating"|"slight"|"25330343"|"27185887"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_plant_rating"|"slight"|"25330343"|"27185888"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_wndthrow_hzd"|"slight"|"25330343"|"27185874"
+06/14/2022 00:00:00|"Nontechnical description"|"GENSOIL"|"generated"|"The Bucklick component makes up 90 percent of the map unit. Slopes are 9 to 14 percent. This component is on hillslopes, hills. The parent material consists of loess over residuum weathered from dolomite. Depth to a root restrictive layer, bedrock, lithic, is 40 to 60 inches. The natural drainage class is well drained.  Water movement in the most restrictive layer is very low.  Available water to a depth of 60 inches (or restricted depth) is moderate.  Shrink-swell potential is high. This soil is not flooded. It is not ponded. There is no zone of water saturation within a depth of 72 inches. Organic matter content in the surface horizon is about 2 percent. This component is in the F115XB005MO Loamy Upland Woodland ecological site. Nonirrigated land capability classification is 4e.  This soil does not meet hydric criteria.   "|"25330344"|"27185889"
+06/17/2014 00:00:00|"Correlation notes"|"calc interp factors"||"Per National Bulletin 430-14-3, the following national calculations were run on all components in data mapunits assigned to Soil Survey Region 11 in Missouri: K-factor (both Kw and Kf); T-factor; Wind Erodibility Group (WEG); Wind Erodibility Index (WEI); Hydrologic Soil Group (HSG); Steel Corrosion; and Concrete Corrosion.  In addition, the calculation to generate non-technical descriptions was run. These calculations were run on all components regardless if previously calculated to ensure that the calculated result reflect the most current calculation model and populated data.  "|"25330344"|"27185891"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_plant_rating"|"moderate"|"25330344"|"27185894"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_wndthrow_hzd"|"slight"|"25330344"|"27185895"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_ero_rating"|"slight"|"25330344"|"27185896"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_equip_rating"|"slight"|"25330344"|"27185897"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_ero_rating"|"slight"|"25330344"|"27185898"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_class"|"3"|"25330344"|"27185899"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_equip_rating"|"slight"|"25330344"|"27185900"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_subclass"|"a"|"25330344"|"27185901"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_class"|"3"|"25330344"|"27185902"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_subclass"|"a"|"25330344"|"27185903"
+01/23/2004 00:00:00|"Miscellaneous notes"|||"60072 Bucklick, copied and modified from 73091 Useful from Maries County."|"25330344"|"27185904"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_seedlng_mort"|"slight"|"25330344"|"27185905"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_seedlng_mort"|"slight"|"25330344"|"27185906"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_plant_rating"|"moderate"|"25330344"|"27185907"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_wndthrow_hzd"|"slight"|"25330344"|"27185892"
+02/26/2014 00:00:00|"Certification notes"|"not converted"|"forage suitability"|"The following data was not converted during the NASIS 6.3 conversion - component forage suitability GCyUMO:  forsgrptype =null, forsgrpmlra =null, forsgrplur =null, forsgrpnumber =CyU, forsgrpstate =MO"|"25330344"|"27185890"
+04/29/2024 00:00:00|"Edit notes"|"other veg class"||"An out of date ""Other Veg Classification"" type was found to still be published with current SSURGO data, ""Missouri Vegetative Classes"".  Since this class has not been maintianed and has the potential to be inconflict with published ESD information it was concluded to remove the obsolete classes form the current SURRGO data and leave them in the additional DMUs for historical records.  After reviewing SSURGO records, this other veg class was populated in 5579 components in SSURGO data, (226 SSAs in 7 states, Arkansas, Iowa, Illinois, Indiana, Kansas, Missouri, Oklahoma).  All SSS concured that this other veg class was obsolete and should be removed from SSURGO data."|"25330344"|"27185893"
+03/24/2024 00:00:00|"Nontechnical description"|"GENSOIL"|"generated"|"Generated brief soil descriptions are created for major soil components.  The Lindley soil is a minor component."|"25330358"|"27186091"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_class"|"3"|"25330358"|"27186092"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_equip_rating"|"moderate"|"25330358"|"27186093"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_ero_rating"|"moderate"|"25330358"|"27186094"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_wndthrow_hzd"|"slight"|"25330358"|"27186095"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_seedlng_mort"|"slight"|"25330358"|"27186096"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_subclass"|"r"|"25330358"|"27186097"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_plant_rating"|"severe"|"25330358"|"27186098"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_ero_rating"|"moderate"|"25330358"|"27186099"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_wndthrow_hzd"|"slight"|"25330358"|"27186100"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_class"|"3"|"25330358"|"27186101"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_equip_rating"|"moderate"|"25330358"|"27186102"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_seedlng_mort"|"slight"|"25330358"|"27186103"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_subclass"|"r"|"25330358"|"27186104"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_plant_rating"|"severe"|"25330358"|"27186105"
+03/24/2024 00:00:00|"Nontechnical description"|"GENSOIL"|"generated"|"The Keswick component makes up 90 percent of the map unit. Slopes are 5 to 9 percent. This component is on hillslopes, till plains. The parent material consists of pedisediment over till. Depth to a root restrictive layer is greater than 60 inches. The natural drainage class is somewhat poorly drained.  Water movement in the most restrictive layer is moderately low.  Available water to a depth of 60 inches (or restricted depth) is moderate.  Shrink-swell potential is high. This soil is not flooded. It is not ponded. A seasonal zone of water saturation is at 24 inches during January, February, March, April, May, November, December. Organic matter content in the surface horizon is about 2 percent. This component is in the F109XY007MO Till Upland Woodland  ecological site. Nonirrigated land capability classification is 3e.  This soil does not meet hydric criteria.  There are no saline horizons within 30 inches of the soil surface. "|"25330359"|"27186108"
+07/10/2019 00:00:00|"Correlation notes"|"RIC"||"The following properties for this component are outside the Keswick OSD Range in Charachteristics: depth to paleosol (RV) is 18 cm which is outside the OSD range to 25 to 50 cm; depth to carbonates (RV) is greater than 200 cm which is outside the OSD range of 100 to 190 cm; and rock fragment content (RV) in the 2Bt and 2Btg horizon is zero which is outside the OSD range of 2 to 15 percent"|"25330359"|"27186106"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_plant_rating"|"slight"|"25330359"|"27186109"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_class"|"3"|"25330359"|"27186110"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_ero_rating"|"slight"|"25330359"|"27186111"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_wndthrow_hzd"|"severe"|"25330359"|"27186112"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_equip_rating"|"slight"|"25330359"|"27186113"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_subclass"|"c"|"25330359"|"27186114"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_seedlng_mort"|"moderate"|"25330359"|"27186115"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_plant_rating"|"slight"|"25330359"|"27186116"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_class"|"3"|"25330359"|"27186117"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_ero_rating"|"slight"|"25330359"|"27186118"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_equip_rating"|"slight"|"25330359"|"27186119"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_seedlng_mort"|"moderate"|"25330359"|"27186120"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_wndthrow_hzd"|"severe"|"25330359"|"27186121"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_subclass"|"c"|"25330359"|"27186107"
+03/24/2024 00:00:00|"Nontechnical description"|"GENSOIL"|"generated"|"Generated brief soil descriptions are created for major soil components.  The Leonard soil is a minor component."|"25330360"|"27186122"
+03/24/2024 00:00:00|"Nontechnical description"|"GENSOIL"|"generated"|"The Mexico component makes up 85 percent of the map unit. Slopes are 1 to 4 percent. This component is on ridges, till plains. The parent material consists of loess over pedisediment. Depth to a root restrictive layer is greater than 60 inches. The natural drainage class is poorly drained.  Water movement in the most restrictive layer is low.  Available water to a depth of 60 inches (or restricted depth) is high.  Shrink-swell potential is high. This soil is not flooded. It is not ponded. A seasonal zone of water saturation is at 9 inches during January, February, March, April, May, November, December. Organic matter content in the surface horizon is about 2 percent. This component is in the R113XY001MO Claypan Summit Prairie ecological site. Nonirrigated land capability classification is 3e.  This soil meets hydric criteria.  There are no saline horizons within 30 inches of the soil surface. "|"25330420"|"27186895"
+04/29/2024 00:00:00|"Edit notes"|"other veg class"||"An out of date ""Other Veg Classification"" type was found to still be published with current SSURGO data, ""Missouri Vegetative Classes"".  Since this class has not been maintianed and has the potential to be inconflict with published ESD information it was concluded to remove the obsolete classes form the current SURRGO data and leave them in the additional DMUs for historical records.  After reviewing SSURGO records, this other veg class was populated in 5579 components in SSURGO data, (226 SSAs in 7 states, Arkansas, Iowa, Illinois, Indiana, Kansas, Missouri, Oklahoma).  All SSS concured that this other veg class was obsolete and should be removed from SSURGO data."|"25330420"|"27186896"
+03/24/2024 00:00:00|"Nontechnical description"|"GENSOIL"|"generated"|"Generated brief soil descriptions are created for major soil components.  The Leonard soil is a minor component."|"25330421"|"27186897"
+03/24/2024 00:00:00|"Nontechnical description"|"GENSOIL"|"generated"|"Generated brief soil descriptions are created for major soil components.  The Armstrong soil is a minor component."|"25330422"|"27186903"
+09/09/2016 00:00:00|"Correlation notes"|"override"||"The national calculation for T factor returns a T factor of 5 for this paleosol component.  A waiver was approved by the National Leader for Soil Interpretations to manually populate a T factor of 3 for these components in Iowa. To ensure consistency across the MLRA, this waiver was applied to these components that occur in Missouri."|"25330422"|"27186901"
+07/24/2019 00:00:00|"Correlation notes"|"override"||"As requested by the Missouri State Soil Scientist and the Missouri State Resource Conservationist, the T factor override has been removed from this component. The results of the T factor calculation will be used.
+
+07/19/2019
+Good morning Tonie,
+
+Based on the discussion with the SRC I will say Yes.  I understand that it wont be doable with the map units that we share with IA.
+
+Thanks 
+
+Jorge L. Lugo-Camacho
+Missouri State Soil Scientist
+USDA-NRCS
+Parkade Center, Suite 250
+601 Business Loop 70 West
+Columbia, Missouri  65203
+573-876-9409
+573-355-2106 (i-Phone)
+FAX 855-865-2188
+jorge.lugo-camacho@usda.gov
+
+ 
+
+Stay Connected with NRCS Missouri
+              
+
+To access official soil survey data go to websoilsurvey.nrcs.usda.gov
+Soil Climate Analysis Network
+
+From: Endres, Tonie - NRCS, Indianapolis, IN 
+Sent: Friday, July 19, 2019 5:39 AM
+To: Lugo-Camacho, Jorge - NRCS, Columbia, MO <jorge.lugo-camacho@usda.gov>
+Cc: Norwood, Kevin - NRCS, Indianapolis, In <kevin.norwood@usda.gov>
+Subject: RE: Missouri T factor corrections
+
+Jorge,
+Do you want me to remove all T factor overrides applied in 2016 to the paleosols in Missouri?  Please note that I wont be able to remove the overrides in those map units/data mapunits that are shared with Iowa?  
+
+Tonie 
+
+Tonie J. Endres
+Senior Regional Soil Scientist, East Central Glaciated Soil Survey Region (SSR 11)
+Natural Resources Conservation Service
+United States Department of Agriculture
+317-295-5872
+
+
+From: Lugo-Camacho, Jorge - NRCS, Columbia, MO <jorge.lugo-camacho@usda.gov> 
+Sent: Thursday, July 18, 2019 5:35 PM
+To: Endres, Tonie - NRCS, Indianapolis, IN <tonie.endres@usda.gov>
+Cc: Goodrich, Nate - NRCS, Columbia, MO <nate.goodrich@usda.gov>
+Subject: FW: Missouri T factor corrections
+Importance: High
+
+Good evening Tonie:
+Please see the message below from our State Resource Conservationist.  I replied to your request when he was on vacation.  He has several concerns about changing the T values, please see below.
+
+Thanks, 
+
+Jorge L. Lugo-Camacho
+Missouri State Soil Scientist
+USDA-NRCS
+Parkade Center, Suite 250
+601 Business Loop 70 West
+Columbia, Missouri  65203
+573-876-9409
+573-355-2106 (i-Phone)
+FAX 855-865-2188
+jorge.lugo-camacho@usda.gov
+
+ 
+
+Stay Connected with NRCS Missouri
+              
+
+To access official soil survey data go to websoilsurvey.nrcs.usda.gov
+Soil Climate Analysis Network
+
+From: Goodrich, Nate - NRCS, Columbia, MO 
+Sent: Thursday, July 18, 2019 4:25 PM
+To: Lugo-Camacho, Jorge - NRCS, Columbia, MO <jorge.lugo-camacho@usda.gov>
+Cc: Gelnar, Dwaine - NRCS, Columbia, MO <dwaine.gelnar@usda.gov>; Miller, Ronald - NRCS, Columbia, MO <ronald.miller@usda.gov>; Turman, Patricia - NRCS, Columbia, MO <pat.turman@usda.gov>
+Subject: RE: Missouri T factor corrections
+
+Jorge,
+
+I have visited with staff and it is my preference that the Missouri T factors be left at the calculated value rather than over-riding with Iowa suggested values.  Using the manual override T factor values has the potential to cause significant workload for our field staff related to conservation planning and even more concerning is the impact on producers related to HEL compliance.  The calculated T values of 5 and 4 were used for planning for the last 6-10 years; see attached file that Ron Miller put together last summer when we were dealing with this situation.  Making such a significant change will put producers in a situation where they may not be able to operate their farms with traditional farming practices, rotations, etc. and thus be considered a hardship for them.
+
+The primary use of T factors is for HEL compliance planning.  A widespread change such as this has and will result in significant impacts on Missouris producers who are currently meeting compliance soil loss requirements based on calculated T values that have been in place for several years.  I have not discussed this situation/proposal with J.R. but if you have concerns with my preference to leave Missouri T factors as is then we should probably have a conversation with him.
+
+Thanks, and let me know if you have any questions.
+
+Nate Goodrich
+State Resource Conservationist
+"|"25330422"|"27186899"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_plant_rating"|"slight"|"25330422"|"27186900"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_subclass"|"c"|"25330422"|"27186898"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_class"|"3"|"25330422"|"27186902"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_wndthrow_hzd"|"severe"|"25330422"|"27186904"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_ero_rating"|"slight"|"25330422"|"27186905"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_equip_rating"|"slight"|"25330422"|"27186906"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_seedlng_mort"|"moderate"|"25330422"|"27186907"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_subclass"|"c"|"25330422"|"27186908"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_class"|"3"|"25330422"|"27186909"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_plant_rating"|"slight"|"25330422"|"27186910"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_wndthrow_hzd"|"severe"|"25330422"|"27186911"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_ero_rating"|"slight"|"25330422"|"27186912"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_equip_rating"|"slight"|"25330422"|"27186913"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_seedlng_mort"|"moderate"|"25330422"|"27186914"
+03/24/2024 00:00:00|"Nontechnical description"|"GENSOIL"|"generated"|"Generated brief soil descriptions are created for major soil components.  The Putnam soil is a minor component."|"25330423"|"27186915"
+04/29/2024 00:00:00|"Edit notes"|"other veg class"||"An out of date ""Other Veg Classification"" type was found to still be published with current SSURGO data, ""Missouri Vegetative Classes"".  Since this class has not been maintianed and has the potential to be inconflict with published ESD information it was concluded to remove the obsolete classes form the current SURRGO data and leave them in the additional DMUs for historical records.  After reviewing SSURGO records, this other veg class was populated in 5579 components in SSURGO data, (226 SSAs in 7 states, Arkansas, Iowa, Illinois, Indiana, Kansas, Missouri, Oklahoma).  All SSS concured that this other veg class was obsolete and should be removed from SSURGO data."|"25330423"|"27186916"
+06/14/2022 00:00:00|"Nontechnical description"|"GENSOIL"|"generated"|"Generated brief soil descriptions are created for major soil components.  The Crider soil is a minor component."|"25330327"|"27185632"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_class"|"7"|"25330327"|"27185634"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_plant_rating"|"severe"|"25330327"|"27185636"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_ero_rating"|"slight"|"25330327"|"27185637"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_subclass"|"a"|"25330327"|"27185638"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_seedlng_mort"|"slight"|"25330327"|"27185639"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_seedlng_mort"|"slight"|"25330327"|"27185640"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_plant_rating"|"severe"|"25330327"|"27185641"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_subclass"|"a"|"25330327"|"27185642"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_equip_rating"|"slight"|"25330327"|"27185643"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_wndthrow_hzd"|"slight"|"25330327"|"27185644"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_wndthrow_hzd"|"slight"|"25330327"|"27185645"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_equip_rating"|"slight"|"25330327"|"27185646"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_ero_rating"|"slight"|"25330327"|"27185647"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_class"|"7"|"25330327"|"27185648"
+02/26/2014 00:00:00|"Certification notes"|"not converted"|"forage suitability"|"The following data was not converted during the NASIS 6.3 conversion - component forage suitability GLyUMO:  forsgrptype =null, forsgrpmlra =null, forsgrplur =null, forsgrpnumber =LyU, forsgrpstate =MO"|"25330327"|"27185633"
+04/29/2024 00:00:00|"Edit notes"|"other veg class"||"An out of date ""Other Veg Classification"" type was found to still be published with current SSURGO data, ""Missouri Vegetative Classes"".  Since this class has not been maintianed and has the potential to be inconflict with published ESD information it was concluded to remove the obsolete classes form the current SURRGO data and leave them in the additional DMUs for historical records.  After reviewing SSURGO records, this other veg class was populated in 5579 components in SSURGO data, (226 SSAs in 7 states, Arkansas, Iowa, Illinois, Indiana, Kansas, Missouri, Oklahoma).  All SSS concured that this other veg class was obsolete and should be removed from SSURGO data."|"25330327"|"27185635"
+06/14/2022 00:00:00|"Nontechnical description"|"GENSOIL"|"generated"|"The Bucklick component makes up 90 percent of the map unit. Slopes are 5 to 9 percent. This component is on hillslopes, hills. The parent material consists of loess over residuum weathered from dolomite. Depth to a root restrictive layer, bedrock, lithic, is 40 to 60 inches. The natural drainage class is well drained.  Water movement in the most restrictive layer is very low.  Available water to a depth of 60 inches (or restricted depth) is moderate.  Shrink-swell potential is high. This soil is not flooded. It is not ponded. There is no zone of water saturation within a depth of 72 inches. Organic matter content in the surface horizon is about 2 percent. This component is in the F115XB005MO Loamy Upland Woodland ecological site. Nonirrigated land capability classification is 4e.  This soil does not meet hydric criteria.   "|"25330328"|"27185651"
+06/17/2014 00:00:00|"Correlation notes"|"calc interp factors"||"Per National Bulletin 430-14-3, the following national calculations were run on all components in data mapunits assigned to Soil Survey Region 11 in Missouri: K-factor (both Kw and Kf); T-factor; Wind Erodibility Group (WEG); Wind Erodibility Index (WEI); Hydrologic Soil Group (HSG); Steel Corrosion; and Concrete Corrosion.  In addition, the calculation to generate non-technical descriptions was run. These calculations were run on all components regardless if previously calculated to ensure that the calculated result reflect the most current calculation model and populated data.  "|"25330328"|"27185649"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_seedlng_mort"|"slight"|"25330328"|"27185652"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_plant_rating"|"moderate"|"25330328"|"27185654"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_seedlng_mort"|"slight"|"25330328"|"27185655"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_wndthrow_hzd"|"slight"|"25330328"|"27185656"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_plant_rating"|"moderate"|"25330328"|"27185657"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_equip_rating"|"slight"|"25330328"|"27185658"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_wndthrow_hzd"|"slight"|"25330328"|"27185659"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_ero_rating"|"slight"|"25330328"|"27185660"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_ero_rating"|"slight"|"25330328"|"27185661"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_equip_rating"|"slight"|"25330328"|"27185662"
+01/23/2004 00:00:00|"Miscellaneous notes"|||"60072 Bucklick, copied and modified from 73091 Useful from Maries County."|"25330328"|"27185663"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_class"|"3"|"25330328"|"27185664"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_subclass"|"a"|"25330328"|"27185665"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_subclass"|"a"|"25330328"|"27185666"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_class"|"3"|"25330328"|"27185667"
+02/26/2014 00:00:00|"Certification notes"|"not converted"|"forage suitability"|"The following data was not converted during the NASIS 6.3 conversion - component forage suitability GCyUMO:  forsgrptype =null, forsgrpmlra =null, forsgrplur =null, forsgrpnumber =CyU, forsgrpstate =MO"|"25330328"|"27185650"
+04/29/2024 00:00:00|"Edit notes"|"other veg class"||"An out of date ""Other Veg Classification"" type was found to still be published with current SSURGO data, ""Missouri Vegetative Classes"".  Since this class has not been maintianed and has the potential to be inconflict with published ESD information it was concluded to remove the obsolete classes form the current SURRGO data and leave them in the additional DMUs for historical records.  After reviewing SSURGO records, this other veg class was populated in 5579 components in SSURGO data, (226 SSAs in 7 states, Arkansas, Iowa, Illinois, Indiana, Kansas, Missouri, Oklahoma).  All SSS concured that this other veg class was obsolete and should be removed from SSURGO data."|"25330328"|"27185653"
+03/24/2024 00:00:00|"Nontechnical description"|"GENSOIL"|"generated"|"Generated brief soil descriptions are created for major soil components.  The Goss soil is a minor component."|"25330353"|"27186035"
+06/17/2014 00:00:00|"Correlation notes"|"calc interp factors"||"Per National Bulletin 430-14-3, the following national calculations were run on all components in data mapunits assigned to Soil Survey Region 11 in Missouri: K-factor (both Kw and Kf); T-factor; Wind Erodibility Group (WEG); Wind Erodibility Index (WEI); Hydrologic Soil Group (HSG); Steel Corrosion; and Concrete Corrosion.  In addition, the calculation to generate non-technical descriptions was run. These calculations were run on all components regardless if previously calculated to ensure that the calculated result reflect the most current calculation model and populated data.  "|"25330353"|"27186033"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_plant_rating"|"slight"|"25330353"|"27186032"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_class"|"3"|"25330353"|"27186036"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_seedlng_mort"|"slight"|"25330353"|"27186037"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_equip_rating"|"slight"|"25330353"|"27186038"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_ero_rating"|"slight"|"25330353"|"27186039"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_plant_rating"|"slight"|"25330353"|"27186040"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_ero_rating"|"slight"|"25330353"|"27186041"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_subclass"|"a"|"25330353"|"27186042"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_equip_rating"|"slight"|"25330353"|"27186043"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_wndthrow_hzd"|"slight"|"25330353"|"27186044"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_subclass"|"a"|"25330353"|"27186045"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_wndthrow_hzd"|"slight"|"25330353"|"27186046"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_seedlng_mort"|"slight"|"25330353"|"27186047"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_class"|"3"|"25330353"|"27186034"
+03/24/2024 00:00:00|"Nontechnical description"|"GENSOIL"|"generated"|"Generated brief soil descriptions are created for major soil components.  The Bucklick soil is a minor component."|"25330354"|"27186048"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_ero_rating"|"moderate"|"25330354"|"27186050"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_plant_rating"|"moderate"|"25330354"|"27186052"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_class"|"3"|"25330354"|"27186053"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_equip_rating"|"moderate"|"25330354"|"27186054"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_wndthrow_hzd"|"slight"|"25330354"|"27186055"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_equip_rating"|"moderate"|"25330354"|"27186056"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_seedlng_mort"|"slight"|"25330354"|"27186057"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_class"|"3"|"25330354"|"27186058"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_subclass"|"r"|"25330354"|"27186059"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_ero_rating"|"moderate"|"25330354"|"27186060"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_wndthrow_hzd"|"slight"|"25330354"|"27186061"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_seedlng_mort"|"slight"|"25330354"|"27186062"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_plant_rating"|"moderate"|"25330354"|"27186063"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_subclass"|"r"|"25330354"|"27186064"
+02/26/2014 00:00:00|"Certification notes"|"not converted"|"forage suitability"|"The following data was not converted during the NASIS 6.3 conversion - component forage suitability GCyUMO:  forsgrptype =null, forsgrpmlra =null, forsgrplur =null, forsgrpnumber =CyU, forsgrpstate =MO"|"25330354"|"27186049"
+04/29/2024 00:00:00|"Edit notes"|"other veg class"||"An out of date ""Other Veg Classification"" type was found to still be published with current SSURGO data, ""Missouri Vegetative Classes"".  Since this class has not been maintianed and has the potential to be inconflict with published ESD information it was concluded to remove the obsolete classes form the current SURRGO data and leave them in the additional DMUs for historical records.  After reviewing SSURGO records, this other veg class was populated in 5579 components in SSURGO data, (226 SSAs in 7 states, Arkansas, Iowa, Illinois, Indiana, Kansas, Missouri, Oklahoma).  All SSS concured that this other veg class was obsolete and should be removed from SSURGO data."|"25330354"|"27186051"
+06/14/2022 00:00:00|"Nontechnical description"|"GENSOIL"|"generated"|"The Crider component makes up 85 percent of the map unit. Slopes are 5 to 9 percent. This component is on hillslopes, hills. The parent material consists of loess over residuum weathered from dolomite. Depth to a root restrictive layer is greater than 60 inches. The natural drainage class is well drained.  Water movement in the most restrictive layer is moderately low.  Available water to a depth of 60 inches (or restricted depth) is high.  Shrink-swell potential is moderate. This soil is not flooded. It is not ponded. There is no zone of water saturation within a depth of 72 inches. Organic matter content in the surface horizon is about 2 percent. This component is in the F115XB005MO Loamy Upland Woodland ecological site. Nonirrigated land capability classification is 3e.  This soil does not meet hydric criteria.   "|"25330355"|"27186067"
+06/17/2014 00:00:00|"Correlation notes"|"calc interp factors"||"Per National Bulletin 430-14-3, the following national calculations were run on all components in data mapunits assigned to Soil Survey Region 11 in Missouri: K-factor (both Kw and Kf); T-factor; Wind Erodibility Group (WEG); Wind Erodibility Index (WEI); Hydrologic Soil Group (HSG); Steel Corrosion; and Concrete Corrosion.  In addition, the calculation to generate non-technical descriptions was run. These calculations were run on all components regardless if previously calculated to ensure that the calculated result reflect the most current calculation model and populated data.  "|"25330355"|"27186065"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_plant_rating"|"severe"|"25330355"|"27186068"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_equip_rating"|"slight"|"25330355"|"27186070"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_wndthrow_hzd"|"slight"|"25330355"|"27186072"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_ero_rating"|"slight"|"25330355"|"27186073"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_subclass"|"a"|"25330355"|"27186074"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_wndthrow_hzd"|"slight"|"25330355"|"27186075"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_ero_rating"|"slight"|"25330355"|"27186076"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_subclass"|"a"|"25330355"|"27186077"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_seedlng_mort"|"slight"|"25330355"|"27186078"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_class"|"7"|"25330355"|"27186079"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"ord_symbol_class"|"7"|"25330355"|"27186080"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_equip_rating"|"slight"|"25330355"|"27186081"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_plant_rating"|"severe"|"25330355"|"27186082"
+02/10/2022 00:00:00|"Miscellaneous notes"|"conversion data"|"woodlnd_seedlng_mort"|"slight"|"25330355"|"27186083"
+02/26/2014 00:00:00|"Certification notes"|"not converted"|"forage suitability"|"The following data was not converted during the NASIS 6.3 conversion - component forage suitability GLyUMO:  forsgrptype =null, forsgrpmlra =null, forsgrplur =null, forsgrpnumber =LyU, forsgrpstate =MO"|"25330355"|"27186066"
+04/29/2024 00:00:00|"Edit notes"|"other veg class"||"An out of date ""Other Veg Classification"" type was found to still be published with current SSURGO data, ""Missouri Vegetative Classes"".  Since this class has not been maintianed and has the potential to be inconflict with published ESD information it was concluded to remove the obsolete classes form the current SURRGO data and leave them in the additional DMUs for historical records.  After reviewing SSURGO records, this other veg class was populated in 5579 components in SSURGO data, (226 SSAs in 7 states, Arkansas, Iowa, Illinois, Indiana, Kansas, Missouri, Oklahoma).  All SSS concured that this other veg class was obsolete and should be removed from SSURGO data."|"25330355"|"27186071"
+03/21/2020 00:00:00|"Edit notes"|||"Imported calculated values to populate missing elevation data needed for NCCPI."|"25330355"|"27186069"
+03/24/2024 00:00:00|"Nontechnical description"|"GENSOIL"|"generated"|"Generated brief soil descriptions are created for major soil components.  The Keswick soil is a minor component."|"25330434"|"27187071"
+01/18/2023 00:00:00|"Correlation notes"|"RIC"||"The thickness of the 2Bt horizon in the Keswick component ranges from 107-121-144 cm. The thickness range for this horizon is 60 to 100 cm in the Keswick OSD. Further review is needed to determine if the OSD thickness range needs to be expanded.  "|"25330434"|"27187072"
+03/24/2024 00:00:00|"Nontechnical description"|"GENSOIL"|"generated"|"The Hatton component makes up 90 percent of the map unit. Slopes are 2 to 5 percent. This component is on ridges on uplands. The parent material consists of loess over pedisediment. Depth to a root restrictive layer is greater than 60 inches. The natural drainage class is moderately well drained.  Water movement in the most restrictive layer is low.  Available water to a depth of 60 inches (or restricted depth) is high.  Shrink-swell potential is moderate. This soil is not flooded. It is not ponded. A seasonal zone of water saturation is at 30 inches during January, February, March, April, May, November, December. Organic matter content in the surface horizon is about 3 percent. This component is in the F115XB004MO Loess Upland Woodland ecological site. Nonirrigated land capability classification is 2e.  This soil does not meet hydric criteria.  There are no saline horizons within 30 inches of the soil surface. "|"25330435"|"27187073"

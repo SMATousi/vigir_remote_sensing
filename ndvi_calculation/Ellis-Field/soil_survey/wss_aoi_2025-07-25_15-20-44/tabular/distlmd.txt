@@ -1,0 +1,1 @@
+"Non-MLRA Soil Survey Area"|"MO113"|"Lincoln County, Missouri"||06/01/1985 00:00:00|"certified, major components"|08/27/2024 17:15:06|"Exported as part of the 2023 ASR.  The Conservation Tree/Shrub Suitability Group Index has been updated."|"11586"|"86667"|"86568"

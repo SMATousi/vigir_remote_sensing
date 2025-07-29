@@ -1,0 +1,7 @@
+"Climate Factor Area (USLE)"|"8"|"Climate Factor"|409959|"11586"|"575103"
+"County or Parish"|"MO113"|"Lincoln"|409959|"11586"|"575104"
+"Land Resource Units"|"11504"|"Central Mississippi Valley Wooded Slopes, Northern Part"|375305|"11586"|"575105"
+"MLRA"|"113"|"Central Claypan Areas"|34654|"11586"|"575106"
+"MLRA"|"115"|"Central Mississippi Valley Wooded Slopes"|375305|"11586"|"575107"
+"Rainfall Factor Area (USLE)"|"225"|"Rainfall Factor"|409959|"11586"|"575108"
+"State or Territory"|"MO"|"Missouri"|409959|"11586"|"575109"
