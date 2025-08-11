@@ -6,7 +6,7 @@
 # Supply *either* an external GeoJSON file path *or* an inline geometry.
 # If both are present, the file wins.
 aoi:
-  geojson_file: "../fields/Ellis_and_BayFarm/Ellis_GeoJSON.geojson"     # path to GeoJSON polygon   (OPTION A)
+  geojson_file: "/home/alitousi/projects/git_repos/vigir_remote_sensing/ndvi_calculation/Ellis-Field/Soil_Survey_Ellis_Full.geojson"     # path to GeoJSON polygon   (OPTION A)
   # geometry:                            # inline Polygon            (OPTION B)
   #   type: Polygon
   #   coordinates:
@@ -18,9 +18,26 @@ aoi:
   #       ]
 
 # ─── Time window (UTC, ISO-8601) ──────────────────────────────────
+# You can specify either:
+# 1. Single year with specific dates (original format)
+# 2. Multiple years with recurring day timeframe
 date_range:
-  start: "2015-07-28T00:00:00Z"
-  end:   "2015-08-30T23:59:59Z"
+  # Option 1: Single year date range (original format)
+  # start: "2015-07-28T00:00:00Z"
+  # end:   "2015-08-30T23:59:59Z"
+  
+  # Option 2: Multiple years with recurring day timeframe
+  years:
+    start_year: 2015
+    end_year: 2024
+  day_timeframe:
+    start_month: 7    # July
+    start_day: 28
+    end_month: 8      # August  
+    end_day: 10
+  time_of_day:
+    start: "00:00:00Z"
+    end: "23:59:59Z"
 
 # ─── Planet item & asset types ────────────────────────────────────
 item_types:
@@ -37,10 +54,10 @@ cloud_cover:
 
 # ─── Download behaviour ───────────────────────────────────────────
 output:
-  directory: "./planet_downloads"
+  directory: "./Ellis_planet_downloads"
   clip_to_aoi: true       # set true if you later add a clipping step
   overwrite: false         # skip a file if it already exists
-  keep_full_scene: falses   # keep the full scene instead of the clip
+  keep_full_scene: false   # keep the full scene instead of the clip
 
 download:
   max_parallel: 2          # concurrent downloads

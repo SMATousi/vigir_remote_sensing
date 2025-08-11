@@ -11,6 +11,7 @@ Download PlanetScope PSScene imagery defined in a YAML config.
 from __future__ import annotations
 
 import concurrent.futures as cf
+from datetime import datetime
 import json
 import os
 import pathlib
@@ -57,7 +58,39 @@ def read_aoi(cfg: Dict[str, Any]) -> Dict[str, Any]:
     return cfg["aoi"]["geometry"]
 
 
-def build_filter(cfg: Dict[str, Any]) -> Dict[str, Any]:
+def generate_year_date_ranges(cfg: Dict[str, Any]) -> List[Dict[str, str]]:
+    """Generate date ranges for each year in the specified range."""
+    date_range_cfg = cfg["date_range"]
+    
+    # Check if it's the old single date format
+    if "start" in date_range_cfg and "end" in date_range_cfg:
+        return [{"start": date_range_cfg["start"], "end": date_range_cfg["end"]}]
+    
+    # New multi-year format
+    years_cfg = date_range_cfg["years"]
+    day_cfg = date_range_cfg["day_timeframe"]
+    time_cfg = date_range_cfg["time_of_day"]
+    
+    start_year = years_cfg["start_year"]
+    end_year = years_cfg["end_year"]
+    start_month = day_cfg["start_month"]
+    start_day = day_cfg["start_day"]
+    end_month = day_cfg["end_month"]
+    end_day = day_cfg["end_day"]
+    start_time = time_cfg["start"]
+    end_time = time_cfg["end"]
+    
+    date_ranges = []
+    for year in range(start_year, end_year + 1):
+        start_date = f"{year:04d}-{start_month:02d}-{start_day:02d}T{start_time}"
+        end_date = f"{year:04d}-{end_month:02d}-{end_day:02d}T{end_time}"
+        date_ranges.append({"start": start_date, "end": end_date})
+    
+    return date_ranges
+
+
+def build_filter(cfg: Dict[str, Any], date_range: Dict[str, str]) -> Dict[str, Any]:
+    """Build filter for a specific date range."""
     geom_filter = {
         "type": "GeometryFilter",
         "field_name": "geometry",
@@ -67,8 +100,8 @@ def build_filter(cfg: Dict[str, Any]) -> Dict[str, Any]:
         "type": "DateRangeFilter",
         "field_name": "acquired",
         "config": {
-            "gte": cfg["date_range"]["start"],
-            "lte": cfg["date_range"]["end"],
+            "gte": date_range["start"],
+            "lte": date_range["end"],
         },
     }
     cloud_filter = {
@@ -79,8 +112,9 @@ def build_filter(cfg: Dict[str, Any]) -> Dict[str, Any]:
     return {"type": "AndFilter", "config": [geom_filter, date_filter, cloud_filter]}
 
 
-def search_items(cfg: Dict[str, Any], api_key: str) -> List[Dict[str, Any]]:
-    payload = {"item_types": cfg["item_types"], "filter": build_filter(cfg)}
+def search_items(cfg: Dict[str, Any], api_key: str, date_range: Dict[str, str]) -> List[Dict[str, Any]]:
+    """Search for items within a specific date range."""
+    payload = {"item_types": cfg["item_types"], "filter": build_filter(cfg, date_range)}
     r = requests.post(SEARCH_URL, auth=(api_key, ""), json=payload)
     r.raise_for_status()
     return r.json().get("features", [])
@@ -134,7 +168,8 @@ def clip_to_geometry(src_path: pathlib.Path,
         dst.write(out_image)
 
 
-def process_item(item: Dict[str, Any], cfg: Dict[str, Any], api_key: str) -> None:
+def process_item(item: Dict[str, Any], cfg: Dict[str, Any], api_key: str, year: int = None) -> None:
+    """Process a single item (with optional year for directory organization)."""
     item_id   = item["id"]
     item_type = item["properties"]["item_type"]
     assets_url = f"{API_ROOT}/item-types/{item_type}/items/{item_id}/assets/"
@@ -145,7 +180,13 @@ def process_item(item: Dict[str, Any], cfg: Dict[str, Any], api_key: str) -> Non
             print(f"✗ {asset_type} not offered for {item_id}")
             continue
 
-        out_dir   = pathlib.Path(cfg["output"]["directory"]) / item_id
+        # Organize by year if provided
+        base_dir = pathlib.Path(cfg["output"]["directory"])
+        if year:
+            out_dir = base_dir / f"year_{year}" / item_id
+        else:
+            out_dir = base_dir / item_id
+            
         full_tif  = out_dir / f"{asset_type}.tif"
         clip_tif  = out_dir / f"{asset_type}_clip.tif"
 
@@ -176,14 +217,37 @@ def main() -> None:
     cfg = load_yaml()
     api_key = get_api_key()
 
-    items = search_items(cfg, api_key)
-    # print(items)
-    print(f"Found {len(items)} scenes.")
-
+    # Generate date ranges for all years
+    date_ranges = generate_year_date_ranges(cfg)
+    print(f"Processing {len(date_ranges)} date range(s)...")
+    
+    all_items = []
+    
+    # Search for items in each date range
+    for i, date_range in enumerate(date_ranges):
+        print(f"\nSearching date range {i+1}/{len(date_ranges)}: {date_range['start']} to {date_range['end']}")
+        items = search_items(cfg, api_key, date_range)
+        print(f"Found {len(items)} scenes for this date range.")
+        
+        # Extract year from date range for directory organization
+        year = int(date_range['start'][:4])
+        
+        # Add year information to items for processing
+        for item in items:
+            item['_year'] = year
+        
+        all_items.extend(items)
+    
+    print(f"\nTotal scenes found across all date ranges: {len(all_items)}")
+    
+    if not all_items:
+        print("No scenes found. Exiting.")
+        return
+    
     # parallel downloads
     with cf.ThreadPoolExecutor(max_workers=cfg["download"]["max_parallel"]) as pool:
         futures = [
-            pool.submit(process_item, item, cfg, api_key) for item in items
+            pool.submit(process_item, item, cfg, api_key, item.get('_year')) for item in all_items
         ]
         for fut in cf.as_completed(futures):
             fut.result()
