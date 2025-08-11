@@ -6,16 +6,16 @@
 # Supply *either* an external GeoJSON file path *or* an inline geometry.
 # If both are present, the file wins.
 aoi:
-  # geojson_file: "/home/alitousi/projects/git_repos/vigir_remote_sensing/ndvi_calculation/Ellis-Field/Soil_Survey_Ellis_Full.geojson"     # path to GeoJSON polygon   (OPTION A)
-  geometry:                            # inline Polygon            (OPTION B)
-    type: Polygon
-    coordinates:
-      - [
-          [-90.998541, 39.127731],
-          [-91.013453, 39.120237],
-          [-90.999160, 39.113665],
-          [-90.980979, 39.120784]
-        ]
+  geojson_file: "/home/macula/SMATousi/projects/vigir_remote_sensing/ndvi_calculation/Ellis-Field/Ellis_field_full_extent_soil_survey.geojson"     # path to GeoJSON polygon   (OPTION A)
+  # geometry:                            # inline Polygon            (OPTION B)
+  #   type: Polygon
+  #   coordinates:
+  #     - [
+  #         [-90.998541, 39.127731],
+  #         [-91.013453, 39.120237],
+  #         [-90.999160, 39.113665],
+  #         [-90.980979, 39.120784]
+  #       ]
 
 # ─── Time window (UTC, ISO-8601) ──────────────────────────────────
 # You can specify either:
@@ -28,13 +28,13 @@ date_range:
   
   # Option 2: Multiple years with recurring day timeframe
   years:
-    start_year: 2021
+    start_year: 2016
     end_year: 2024
   day_timeframe:
     start_month: 7    # July
     start_day: 28
     end_month: 8      # August  
-    end_day: 10
+    end_day: 8
   time_of_day:
     start: "00:00:00Z"
     end: "23:59:59Z"
@@ -50,7 +50,7 @@ asset_types:
 
 # ─── Basic quality filters ────────────────────────────────────────
 cloud_cover:
-  max: 0.05                # images with ≤ 5 % cloud_cover
+  max: 0.05              # images with ≤ 5 % cloud_cover
 
 # ─── Download behaviour ───────────────────────────────────────────
 output:

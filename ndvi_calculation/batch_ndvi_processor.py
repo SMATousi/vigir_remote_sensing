@@ -59,7 +59,7 @@ def process_planetscope_directory(data_dir: str, output_dir: str = None):
         try:
             # Extract year from parent directory name (e.g., 20160804_232118_0d06 -> 2016)
             parent_folder = tiff_file.parent.name
-            year = parent_folder[:4]  # Extract first 4 characters as year
+            year = tiff_file.name[:4]  # Extract first 4 characters as year
             
             # Create output filename using the year
             output_filename = f"{year}_ndvi.tif"

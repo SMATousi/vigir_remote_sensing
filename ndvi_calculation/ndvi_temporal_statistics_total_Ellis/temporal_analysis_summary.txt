@@ -1,0 +1,43 @@
+NDVI Temporal Analysis Summary
+========================================
+
+Analysis Date: 2025-08-11 15:31:32,309
+Input Directory: /home/macula/SMATousi/projects/vigir_remote_sensing/ndvi_calculation/Ellis_field_total_ndvi_outputs
+Output Directory: /home/macula/SMATousi/projects/vigir_remote_sensing/ndvi_calculation/ndvi_temporal_statistics_total_Ellis
+
+Years Analyzed: 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024 (9 years)
+Spatial Dimensions: 483 rows x 901 columns
+
+Generated Files:
+Basic Statistics:
+1. ndvi_median_yield_ranking_*.tif - Median NDVI values for yield ranking
+2. ndvi_variability_ranking_*.tif - Variability (95th - 5th percentile)
+3. ndvi_standard_deviation_*.tif - Standard deviation across years
+
+Advanced Statistics:
+4. ndvi_absolute_normalization_*.tif - Absolute normalization across all years
+5. ndvi_temporal_trend_slope_*.tif - Temporal trend slope (change per year)
+6. ndvi_temporal_trend_r2_*.tif - R-squared values for temporal trends
+7. ndvi_management_zones_*.tif - Management zone classifications
+
+Management Zone Classifications:
+0 = Invalid/NoData (pixels with insufficient data)
+1 = Stable High (high median performance)
+2 = Stable Low (low median performance)
+3 = Variable (high standard deviation)
+4 = Declining Trend (significant negative slope)
+5 = Increasing Trend (significant positive slope)
+
+Management Recommendations by Zone:
+- Stable High: Management is working well, maintain practices
+- Stable Low: Address soil fertility, drainage, or other limiting factors
+- Variable: Consider variable rate applications or field experiments
+- Declining: Investigate consistent problems, may need intervention
+- Increasing: Identify successful practices for other field areas
+
+Notes:
+- NoData value: -999 (0 for management zones)
+- NDVI values should be in normalized range
+- Absolute normalization shows relative performance across entire field
+- Trend analysis requires minimum 3 years of data per pixel
+- Zone classification uses percentile-based thresholds
