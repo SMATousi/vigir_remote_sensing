@@ -6,16 +6,16 @@
 # Supply *either* an external GeoJSON file path *or* an inline geometry.
 # If both are present, the file wins.
 aoi:
-  geojson_file: "/home/alitousi/projects/git_repos/vigir_remote_sensing/ndvi_calculation/Ellis-Field/Soil_Survey_Ellis_Full.geojson"     # path to GeoJSON polygon   (OPTION A)
-  # geometry:                            # inline Polygon            (OPTION B)
-  #   type: Polygon
-  #   coordinates:
-  #     - [
-  #         [-92.370509,38.981636],
-  #         [-92.353630,38.981376],
-  #         [-92.356170,38.969190],
-  #         [-92.371077,38.968657]
-  #       ]
+  # geojson_file: "/home/alitousi/projects/git_repos/vigir_remote_sensing/ndvi_calculation/Ellis-Field/Soil_Survey_Ellis_Full.geojson"     # path to GeoJSON polygon   (OPTION A)
+  geometry:                            # inline Polygon            (OPTION B)
+    type: Polygon
+    coordinates:
+      - [
+          [-90.998541, 39.127731],
+          [-91.013453, 39.120237],
+          [-90.999160, 39.113665],
+          [-90.980979, 39.120784]
+        ]
 
 # ─── Time window (UTC, ISO-8601) ──────────────────────────────────
 # You can specify either:
@@ -28,7 +28,7 @@ date_range:
   
   # Option 2: Multiple years with recurring day timeframe
   years:
-    start_year: 2015
+    start_year: 2021
     end_year: 2024
   day_timeframe:
     start_month: 7    # July
@@ -60,5 +60,5 @@ output:
   keep_full_scene: false   # keep the full scene instead of the clip
 
 download:
-  max_parallel: 2          # concurrent downloads
+  max_parallel: 10          # concurrent downloads
   chunk_size: 8192         # bytes per stream chunk
