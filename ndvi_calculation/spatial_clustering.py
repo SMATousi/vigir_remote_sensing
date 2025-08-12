@@ -402,16 +402,16 @@ def main():
     # List of TIFF files to stack and cluster
     # Replace these paths with your actual TIFF file paths
     input_tiff_files = [
-        "Ellis-Field/clipped_slope.tif",
-        "Ellis-Field/rasterized_soil_survey.tif",
-        "ndvi_temporal_statistics/ndvi_management_zones_2016_2024.tif",
-        "ndvi_temporal_statistics/ndvi_median_yield_ranking_2016_2024.tif",
-        "ndvi_temporal_statistics/ndvi_standard_deviation_2016_2024.tif",
+        "Ellis-Field/ellis-slope-full-extent.tif",
+        "Ellis-Field/rasterized_total_soil_survey_ellis.tif",
+        "ndvi_temporal_statistics_total_Ellis/ndvi_management_zones_2016_2024.tif",
+        "ndvi_temporal_statistics_total_Ellis/ndvi_median_yield_ranking_2016_2024.tif",
+        "ndvi_temporal_statistics_total_Ellis/ndvi_standard_deviation_2016_2024.tif",
     ]
     
     # Output paths
-    output_cluster_tiff = "clustered_results.tif"
-    output_visualization = "clustering_visualization.png"
+    output_cluster_tiff = "full_extent_clustered_results.tif"
+    output_visualization = "full_extent_clustering_visualization.png"
     
     # Clustering parameters
     eps = 0.5          # Maximum distance between samples in a cluster
