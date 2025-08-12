@@ -1,0 +1,12 @@
+<PAMDataset>
+  <PAMRasterBand band="1">
+    <Description>NDVI Temporal Trend Slope (2016_2024)</Description>
+    <Metadata>
+      <MDI key="STATISTICS_MINIMUM">-0.10072647035122</MDI>
+      <MDI key="STATISTICS_MAXIMUM">0.078444913029671</MDI>
+      <MDI key="STATISTICS_MEAN">0.010372284534699</MDI>
+      <MDI key="STATISTICS_STDDEV">0.013611774952725</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">94.67</MDI>
+    </Metadata>
+  </PAMRasterBand>
+</PAMDataset>

@@ -1,0 +1,12 @@
+<PAMDataset>
+  <PAMRasterBand band="1">
+    <Description>NDVI Management Zones (2016_2024)</Description>
+    <Metadata>
+      <MDI key="STATISTICS_MINIMUM">1</MDI>
+      <MDI key="STATISTICS_MAXIMUM">5</MDI>
+      <MDI key="STATISTICS_MEAN">1.8196081096497</MDI>
+      <MDI key="STATISTICS_STDDEV">1.0328249902773</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">94.67</MDI>
+    </Metadata>
+  </PAMRasterBand>
+</PAMDataset>

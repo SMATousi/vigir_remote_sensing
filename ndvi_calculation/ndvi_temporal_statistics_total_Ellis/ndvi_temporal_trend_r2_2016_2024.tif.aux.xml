@@ -1,0 +1,12 @@
+<PAMDataset>
+  <PAMRasterBand band="1">
+    <Description>NDVI Temporal Trend R-squared (2016_2024)</Description>
+    <Metadata>
+      <MDI key="STATISTICS_MINIMUM">0</MDI>
+      <MDI key="STATISTICS_MAXIMUM">0.95846217870712</MDI>
+      <MDI key="STATISTICS_MEAN">0.19900700610449</MDI>
+      <MDI key="STATISTICS_STDDEV">0.17590444851877</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">94.67</MDI>
+    </Metadata>
+  </PAMRasterBand>
+</PAMDataset>

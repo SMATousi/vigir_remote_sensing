@@ -1,0 +1,12 @@
+<PAMDataset>
+  <PAMRasterBand band="1">
+    <Description>NDVI Absolute Normalization (2016_2024)</Description>
+    <Metadata>
+      <MDI key="STATISTICS_MINIMUM">-4.1581106185913</MDI>
+      <MDI key="STATISTICS_MAXIMUM">1.1610312461853</MDI>
+      <MDI key="STATISTICS_MEAN">6.6718472381257e-07</MDI>
+      <MDI key="STATISTICS_STDDEV">0.99999993859824</MDI>
+      <MDI key="STATISTICS_VALID_PERCENT">94.67</MDI>
+    </Metadata>
+  </PAMRasterBand>
+</PAMDataset>
