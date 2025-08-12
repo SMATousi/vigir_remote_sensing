@@ -47,7 +47,7 @@ class SpatialTIFFClusterer:
         self.standardize = standardize
         self.normalize_layers = normalize_layers
         self.scaler = StandardScaler() if standardize else None
-        self.clusterer = DBSCAN(eps=eps, min_samples=min_samples)
+        self.clusterer = DBSCAN(eps=eps, min_samples=min_samples, n_jobs=-1)
         
     def get_lowest_resolution_metadata(self, tiff_paths: List[str]) -> Tuple[dict, int]:
         """
