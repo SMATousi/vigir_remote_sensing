@@ -403,15 +403,15 @@ def main():
     # Replace these paths with your actual TIFF file paths
     input_tiff_files = [
         "Ellis-Field/ellis-slope-full-extent.tif",
-        "Ellis-Field/rasterized_total_soil_survey_ellis.tif",
+        # "Ellis-Field/rasterized_total_soil_survey_ellis.tif",
         "ndvi_temporal_statistics_total_Ellis/ndvi_management_zones_2016_2024.tif",
         "ndvi_temporal_statistics_total_Ellis/ndvi_median_yield_ranking_2016_2024.tif",
         "ndvi_temporal_statistics_total_Ellis/ndvi_standard_deviation_2016_2024.tif",
     ]
     
     # Output paths
-    output_cluster_tiff = "full_extent_clustered_results.tif"
-    output_visualization = "full_extent_clustering_visualization.png"
+    output_cluster_tiff = "full_extent_clustered_results_without_ss.tif"
+    output_visualization = "full_extent_clustering_visualization_without_ss.png"
     
     # Clustering parameters
     eps = 0.5          # Maximum distance between samples in a cluster
