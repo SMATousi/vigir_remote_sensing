@@ -1,6 +1,6 @@
-# NDVI Calculator
+# NDVI Calculator & Analysis Tools
 
-A comprehensive Python tool for calculating and normalizing NDVI (Normalized Difference Vegetation Index) from multispectral TIFF files using rasterio.
+A comprehensive Python toolkit for calculating NDVI (Normalized Difference Vegetation Index), performing spatial clustering, temporal analysis, and evaluating clustering results against yield maps.
 
 ## Features
 
@@ -89,6 +89,64 @@ python ndvi_calculator.py input.tif -o output.tif --save-plot ndvi_results.png
 - numpy >= 1.21.0
 - rasterio >= 1.3.0
 - matplotlib >= 3.5.0
+
+## Clustering vs Yield Map Evaluation
+
+The `clustering_yield_evaluation.py` tool evaluates clustering results against yield map masks using classification metrics.
+
+### Features
+
+- **Multiple Metrics**: Calculates precision, recall, F1-score, and IoU (Intersection over Union)
+- **Flexible Yield Ranges**: Create masks from yield maps using custom yield ranges
+- **Comprehensive Analysis**: Evaluates each cluster individually against the yield mask
+- **Visualization**: Generates bar charts showing metrics for each cluster
+- **Export Results**: Saves detailed results to CSV files with metadata
+
+### Usage
+
+#### Command Line Interface
+
+```bash
+# Evaluate clustering results against yield map
+python clustering_yield_evaluation.py clustering_results.tif yield_map.tif 150 200
+
+# With custom output directory and prefix
+python clustering_yield_evaluation.py clustering_results.tif yield_map.tif 150 200 \
+    --output_dir results --prefix high_yield_evaluation
+```
+
+#### As a Python Module
+
+```python
+from clustering_yield_evaluation import ClusteringYieldEvaluator
+
+# Initialize evaluator
+evaluator = ClusteringYieldEvaluator('clustering_results.tif', 'yield_map.tif')
+
+# Load data
+evaluator.load_data()
+
+# Evaluate clusters for high yield areas (150-200 bu/acre)
+results_df = evaluator.evaluate_all_clusters(yield_min=150, yield_max=200)
+
+# Save results
+evaluator.save_results(results_df, 'evaluation_results.csv', 150, 200)
+evaluator.create_visualization(results_df, 'evaluation_plot.png')
+evaluator.print_summary(results_df)
+```
+
+### Metrics Explained
+
+- **Precision**: What fraction of pixels predicted as belonging to a cluster actually fall within the yield range?
+- **Recall**: What fraction of pixels within the yield range are correctly identified by the cluster?
+- **F1-Score**: Harmonic mean of precision and recall (balanced measure)
+- **IoU**: Intersection over Union - measures overlap between cluster and yield mask
+
+### Output Files
+
+- `*_results.csv`: Detailed metrics for each cluster
+- `*_visualization.png`: Bar charts showing all metrics by cluster
+- Console output with summary statistics and top-performing clusters
 
 ## NDVI Interpretation
 
