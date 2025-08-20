@@ -190,7 +190,7 @@ class ClusteringYieldEvaluator:
         
         # Get unique cluster IDs (excluding 0 which is typically background)
         cluster_ids = np.unique(self.clustering_data)
-        cluster_ids = cluster_ids[cluster_ids > 0]  # Remove background
+        cluster_ids = cluster_ids[cluster_ids >= 0]  # Remove background
         
         results = []
         
@@ -301,7 +301,7 @@ class ClusteringYieldEvaluator:
         
         # 1. Original clustering results
         clustering_data = np.where(valid_yield_mask, self.clustering_data, np.nan)
-        clustering_data = np.where(clustering_data>0, clustering_data, np.nan)
+        clustering_data = np.where(clustering_data>=0, clustering_data, np.nan)
         im1 = axes[0, 0].imshow(clustering_data, cmap='tab10', interpolation='nearest')
         axes[0, 0].set_title('Clustering Results')
         axes[0, 0].set_xlabel('X (pixels)')
@@ -330,7 +330,7 @@ class ClusteringYieldEvaluator:
         
         # 4. Overlay: Clusters with yield mask boundaries
         # Create a composite visualization
-        overlay_display = np.where(valid_yield_mask, self.clustering_data, np.nan)
+        overlay_display = np.where(valid_yield_mask, clustering_data, np.nan)
         im4 = axes[1, 1].imshow(overlay_display, cmap='tab10', interpolation='nearest', alpha=0.7)
         
         # Add yield mask as contour overlay
