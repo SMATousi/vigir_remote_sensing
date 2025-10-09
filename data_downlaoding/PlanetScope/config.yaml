@@ -6,7 +6,8 @@
 # Supply *either* an external GeoJSON file path *or* an inline geometry.
 # If both are present, the file wins.
 aoi:
-  geojson_file: "/home/macula/SMATousi/projects/vigir_remote_sensing/ndvi_calculation/Ellis-Field/Ellis_field_full_extent_soil_survey.geojson"     # path to GeoJSON polygon   (OPTION A)
+  # geojson_file: "/home/macula/SMATousi/projects/vigir_remote_sensing/ndvi_calculation/Ellis-Field/Ellis_field_full_extent_soil_survey.geojson"     # path to GeoJSON polygon   (OPTION A)
+  geojson_file: "~/Downloads/planet_outline/outline_json.geojson"
   # geometry:                            # inline Polygon            (OPTION B)
   #   type: Polygon
   #   coordinates:
@@ -28,13 +29,13 @@ date_range:
   
   # Option 2: Multiple years with recurring day timeframe
   years:
-    start_year: 2016
-    end_year: 2024
+    start_year: 2025
+    end_year: 2025
   day_timeframe:
-    start_month: 7    # July
-    start_day: 28
+    start_month: 8    # July
+    start_day: 25
     end_month: 8      # August  
-    end_day: 8
+    end_day: 26
   time_of_day:
     start: "00:00:00Z"
     end: "23:59:59Z"
@@ -43,22 +44,22 @@ date_range:
 item_types:
   - PSScene                # 4- or 8-band PlanetScope scenes
 asset_types:
-  # - basic_analytic_8b      # surface-reflectance GeoTIFF
-  - ortho_analytic_4b 
+  - basic_analytic_8b      # surface-reflectance GeoTIFF
+  # - ortho_analytic_4b 
   # - analytic_sr
   # - ortho_visual
 
 # ─── Basic quality filters ────────────────────────────────────────
 cloud_cover:
-  max: 0.05              # images with ≤ 5 % cloud_cover
+  max: 0.05           # images with ≤ 5 % cloud_cover
 
 # ─── Download behaviour ───────────────────────────────────────────
 output:
-  directory: "./Ellis_planet_downloads"
+  directory: "~/Desktop/PlanetScope_downloads"
   clip_to_aoi: true       # set true if you later add a clipping step
   overwrite: false         # skip a file if it already exists
   keep_full_scene: false   # keep the full scene instead of the clip
 
 download:
-  max_parallel: 10          # concurrent downloads
+  max_parallel: 2          # concurrent downloads
   chunk_size: 8192         # bytes per stream chunk

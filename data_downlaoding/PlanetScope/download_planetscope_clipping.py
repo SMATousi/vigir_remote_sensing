@@ -44,17 +44,65 @@ def get_api_key() -> str:
 
 
 def read_aoi(cfg: Dict[str, Any]) -> Dict[str, Any]:
-    """Return a GeoJSON geometry dict from file or inline config."""
+    """Return a GeoJSON geometry dict from file or inline config.
+    
+    Supports:
+    - FeatureCollection with one or more features
+    - Single Feature objects
+    - Direct geometry objects
+    - MultiPolygon and Polygon geometries
+    """
     file_path = cfg["aoi"].get("geojson_file")
-    if file_path and pathlib.Path(file_path).exists():
-        with open(file_path, "r") as f:
-            geojson = json.load(f)
-        if "type" in geojson and geojson["type"] == "FeatureCollection":
-            return geojson["features"][0]["geometry"]
-        if geojson.get("type") == "Feature":
-            return geojson["geometry"]
-        return geojson
-    # fallback: inline geometry
+    if file_path:
+        # Expand user home directory if present
+        expanded_path = pathlib.Path(file_path).expanduser()
+        
+        if not expanded_path.exists():
+            raise FileNotFoundError(f"GeoJSON file not found: {expanded_path}")
+            
+        try:
+            with open(expanded_path, "r") as f:
+                geojson = json.load(f)
+        except json.JSONDecodeError as e:
+            raise ValueError(f"Invalid JSON in GeoJSON file {expanded_path}: {e}")
+        
+        # Handle FeatureCollection
+        if geojson.get("type") == "FeatureCollection":
+            features = geojson.get("features", [])
+            if not features:
+                raise ValueError("FeatureCollection contains no features")
+            
+            # If multiple features, we could either:
+            # 1. Use only the first feature (current behavior)
+            # 2. Union all geometries (more complex)
+            # For now, use first feature but warn if multiple
+            if len(features) > 1:
+                print(f"Warning: FeatureCollection contains {len(features)} features. Using the first feature only.")
+                print("If you need to use all features, consider merging them into a single MultiPolygon.")
+            
+            geometry = features[0].get("geometry")
+            if not geometry:
+                raise ValueError("First feature has no geometry")
+            return geometry
+            
+        # Handle single Feature
+        elif geojson.get("type") == "Feature":
+            geometry = geojson.get("geometry")
+            if not geometry:
+                raise ValueError("Feature has no geometry")
+            return geometry
+            
+        # Handle direct geometry object
+        elif geojson.get("type") in ["Polygon", "MultiPolygon", "Point", "LineString", "MultiPoint", "MultiLineString"]:
+            return geojson
+            
+        else:
+            raise ValueError(f"Unsupported GeoJSON type: {geojson.get('type')}")
+    
+    # Fallback: inline geometry from config
+    if "geometry" not in cfg["aoi"]:
+        raise ValueError("No geojson_file specified and no inline geometry found in config")
+    
     return cfg["aoi"]["geometry"]
 
 
@@ -134,26 +182,88 @@ def activate(asset_url: str, api_key: str) -> Dict[str, Any]:
 
 
 def download_asset(url: str, target: pathlib.Path, chunk: int = 8192) -> None:
+    """Download an asset from url to target path."""
     target.parent.mkdir(parents=True, exist_ok=True)
-    with requests.get(url, stream=True) as r:
-        r.raise_for_status()
-        tmp = target.with_suffix(".part")
-        with open(tmp, "wb") as f:
-            for piece in r.iter_content(chunk):
-                f.write(piece)
-        tmp.rename(target)
+    r = requests.get(url, stream=True)
+    r.raise_for_status()
+    with open(target, "wb") as f:
+        for chunk in r.iter_content(chunk_size=chunk):
+            f.write(chunk)
+
+
+def fix_raster_crs(raster_path: pathlib.Path, target_crs: str = "EPSG:4326") -> None:
+    """Fix missing CRS information in a raster file.
+    
+    Args:
+        raster_path: Path to the raster file
+        target_crs: CRS to assign if missing (default: EPSG:4326 for PlanetScope)
+    """
+    # Check if the raster needs CRS fixing
+    with rasterio.open(raster_path) as src:
+        if src.crs is not None:
+            print(f"✓ {raster_path.name} already has CRS: {src.crs}")
+            return
+    
+    print(f"🔧 Fixing CRS for {raster_path.name} - assigning {target_crs}")
+    
+    # Read the raster data and metadata
+    with rasterio.open(raster_path) as src:
+        data = src.read()
+        meta = src.meta.copy()
+        
+    # Update metadata with CRS
+    meta["crs"] = target_crs
+    
+    # Create a temporary file to avoid corruption
+    temp_path = raster_path.with_suffix(".tmp.tif")
+    
+    try:
+        # Write the data with updated CRS
+        with rasterio.open(temp_path, "w", **meta) as dst:
+            dst.write(data)
+        
+        # Replace the original file
+        temp_path.replace(raster_path)
+        print(f"✓ Successfully assigned {target_crs} to {raster_path.name}")
+        
+    except Exception as e:
+        # Clean up temp file if something went wrong
+        if temp_path.exists():
+            temp_path.unlink()
+        raise
 
 
 def clip_to_geometry(src_path: pathlib.Path,
                      dst_path: pathlib.Path,
                      geom_geojson: Dict[str, Any]) -> None:
-    """Clip src_path to geom_geojson and save to dst_path."""
+    """Clip src_path to geom_geojson and save to dst_path.
+    
+    Handles rasters with or without CRS information. For PlanetScope imagery,
+    assumes EPSG:4326 (WGS84) if no CRS is present.
+    """
     with rasterio.open(src_path) as src:
-        # re-project geometry from EPSG:4326 to the image CRS
-        geom_img_crs = transform_geom(
-            "EPSG:4326", src.crs, geom_geojson, precision=6
-        )
+        # Check if the raster has CRS information
+        if src.crs is None:
+            print(f"Warning: {src_path.name} has no CRS information. Assuming EPSG:4326 (WGS84) for PlanetScope imagery.")
+            # PlanetScope imagery is typically in WGS84 (EPSG:4326)
+            raster_crs = "EPSG:4326"
+        else:
+            raster_crs = src.crs
+            print(f"Using raster CRS: {raster_crs}")
+        
+        # Transform geometry from EPSG:4326 to the raster CRS
+        if raster_crs == "EPSG:4326":
+            # No transformation needed if both are EPSG:4326
+            geom_img_crs = geom_geojson
+        else:
+            geom_img_crs = transform_geom(
+                "EPSG:4326", raster_crs, geom_geojson, precision=6
+            )
+        
+        # Perform the clipping
         out_image, out_transform = mask(src, [geom_img_crs], crop=True)
+        
+        # Copy metadata and update with clipped dimensions
         meta = src.meta.copy()
         meta.update(
             {
@@ -162,7 +272,13 @@ def clip_to_geometry(src_path: pathlib.Path,
                 "transform": out_transform,
             }
         )
+        
+        # Ensure CRS is set in the output metadata
+        if meta.get("crs") is None:
+            meta["crs"] = raster_crs
+            print(f"Setting output CRS to: {raster_crs}")
 
+    # Create output directory and save clipped raster
     dst_path.parent.mkdir(parents=True, exist_ok=True)
     with rasterio.open(dst_path, "w", **meta) as dst:
         dst.write(out_image)
@@ -198,6 +314,9 @@ def process_item(item: Dict[str, Any], cfg: Dict[str, Any], api_key: str, year: 
         asset_json = activate(assets[asset_type]["_links"]["_self"], api_key)
         print(f"↓ downloading {item_id}:{asset_type}")
         download_asset(asset_json["location"], full_tif, cfg["download"]["chunk_size"])
+        
+        # ── fix CRS if missing ────────────────────────────────────
+        fix_raster_crs(full_tif)
 
         # ── optional clipping step ────────────────────────────────
         if cfg.get("clip_to_aoi", True):

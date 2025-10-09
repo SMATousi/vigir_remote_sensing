@@ -1,0 +1,28 @@
+{
+  "type": "FeatureCollection",
+  "name": "outline_json",
+  "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+  "features": [
+    { 
+      "type": "Feature", 
+      "properties": { 
+        "Shape_Leng": 10046.9836369, 
+        "Shape_Area": 5960000.4074600004 
+      }, 
+      "geometry": { 
+        "type": "MultiPolygon", 
+        "coordinates": [ 
+          [ 
+            [ 
+              [ -92.247938450581614, 38.919557787192552 ], 
+              [ -92.248398698427621, 38.901711298448078 ], 
+              [ -92.284123579971947, 38.902600465936487 ], 
+              [ -92.283733868985507, 38.919387955880339 ], 
+              [ -92.247938450581614, 38.919557787192552 ] 
+            ] 
+          ] 
+        ] 
+      } 
+    }
+  ]
+}
