@@ -432,18 +432,23 @@ class VegetationIndicesCalculator:
         if metadata['crs'] is not None:
             print(f"  Preserving CRS: {metadata['crs']}")
         
-        # Get base filename without extension
-        base_name = Path(input_path).stem
+        # Get base filename without extension and folder name
+        input_path_obj = Path(input_path)
+        base_name = input_path_obj.stem
+        folder_name = input_path_obj.parent.name
+        
+        # Create filename with folder name included
+        filename_prefix = f"{folder_name}_{base_name}"
         
         # Save normalized index
-        norm_path = os.path.join(output_dir, f"{base_name}_{index_name}_normalized.tif")
+        norm_path = os.path.join(output_dir, f"{filename_prefix}_{index_name}_normalized.tif")
         with rasterio.open(norm_path, 'w', **out_meta) as dst:
             dst.write(normalized_index.astype(np.float32), 1)
         print(f"  Normalized {index_name} saved to: {norm_path}")
         
         # Save raw index if requested
         if save_raw:
-            raw_path = os.path.join(output_dir, f"{base_name}_{index_name}_raw.tif")
+            raw_path = os.path.join(output_dir, f"{filename_prefix}_{index_name}_raw.tif")
             with rasterio.open(raw_path, 'w', **out_meta) as dst:
                 dst.write(raw_index.astype(np.float32), 1)
             print(f"  Raw {index_name} saved to: {raw_path}")
@@ -561,11 +566,11 @@ def main():
     parser.add_argument('--indices', nargs='+', 
                        choices=['NDWI', 'NDVI', 'TDVI', 'NDRE', 'NGRDI', 'ClGreen', 'ClRedEdge', 'GNDVI', 'EXG', 'ALL'],
                        default=['NDVI'], help='Indices to calculate (default: NDVI). Use ALL to calculate all available indices.')
-    parser.add_argument('--green-band', type=int, default=1, help='Green band index (1-indexed, default: 1)')
-    parser.add_argument('--red-band', type=int, default=2, help='Red band index (1-indexed, default: 2)')
-    parser.add_argument('--nir-band', type=int, default=3, help='NIR band index (1-indexed, default: 3)')
-    parser.add_argument('--red-edge-band', type=int, default=4, help='Red edge band index (1-indexed, default: 4)')
-    parser.add_argument('--blue-band', type=int, default=5, help='Blue band index (1-indexed, default: 5)')
+    parser.add_argument('--green-band', type=int, default=4, help='Green band index (1-indexed, default: 4)')
+    parser.add_argument('--red-band', type=int, default=6, help='Red band index (1-indexed, default: 6)')
+    parser.add_argument('--nir-band', type=int, default=8, help='NIR band index (1-indexed, default: 8)')
+    parser.add_argument('--red-edge-band', type=int, default=7, help='Red edge band index (1-indexed, default: 7)')
+    parser.add_argument('--blue-band', type=int, default=2, help='Blue band index (1-indexed, default: 2)')
     parser.add_argument('--normalize', choices=['min_max', 'percentile', 'z_score'], 
                        default='min_max', help='Normalization method (default: min_max)')
     parser.add_argument('--save-raw', action='store_true', help='Also save raw index values')
