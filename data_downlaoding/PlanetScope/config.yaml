@@ -33,9 +33,9 @@ date_range:
     end_year: 2025
   day_timeframe:
     start_month: 8    # July
-    start_day: 25
+    start_day: 1
     end_month: 8      # August  
-    end_day: 26
+    end_day: 31
   time_of_day:
     start: "00:00:00Z"
     end: "23:59:59Z"
@@ -44,22 +44,23 @@ date_range:
 item_types:
   - PSScene                # 4- or 8-band PlanetScope scenes
 asset_types:
-  - basic_analytic_8b      # surface-reflectance GeoTIFF
+  - ortho_analytic_8b      # surface-reflectance GeoTIFF
   # - ortho_analytic_4b 
   # - analytic_sr
   # - ortho_visual
 
 # ─── Basic quality filters ────────────────────────────────────────
 cloud_cover:
-  max: 0.05           # images with ≤ 5 % cloud_cover
+
+  max: 1         # images with ≤ 5 % cloud_cover
 
 # ─── Download behaviour ───────────────────────────────────────────
 output:
-  directory: "~/Desktop/PlanetScope_downloads"
+  directory: "/home/alitousi/Desktop/PlanetScope_downloads/2025"
   clip_to_aoi: true       # set true if you later add a clipping step
   overwrite: false         # skip a file if it already exists
   keep_full_scene: false   # keep the full scene instead of the clip
 
 download:
-  max_parallel: 2          # concurrent downloads
+  max_parallel: 5          # concurrent downloads
   chunk_size: 8192         # bytes per stream chunk

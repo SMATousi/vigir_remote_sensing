@@ -19,8 +19,6 @@ A comprehensive Python toolkit for calculating multiple vegetation indices, NDVI
 - **Flexible Band Configuration**: Support for different satellite data (Landsat, Sentinel-2, etc.)
 - **Multiple Normalization Methods**: Min-max, percentile-based, and z-score standardization
 - **Comprehensive Visualization**: Multi-index plotting and comparison
-- **CRS Preservation**: Output files maintain the same Coordinate Reference System as input files
-- **Spatial Reference Integrity**: Preserves geotransform, bounds, and projection information
 
 ### NDVI Calculator (Legacy)
 - **NDVI Calculation**: Computes NDVI for each pixel using the formula: `(NIR - Red) / (NIR + Red)`
@@ -100,13 +98,13 @@ batch_process_folder(
 python vegetation_indices_calculator.py input.tif --indices NDVI
 
 # Calculate multiple indices
-python vegetation_indices_calculator.py input.tif --indices NDVI NDWI GNDVI NDRE EXG
+python vegetation_indices_calculator.py input.tif --indices NDVI NDWI GNDVI NDRE
 
 # Batch process entire folder
-python vegetation_indices_calculator.py /path/to/folder --batch --indices NDVI NDRE EXG
+python vegetation_indices_calculator.py /path/to/folder --batch --indices NDVI NDRE
 
 # Custom band configuration (e.g., for Landsat data)
-python vegetation_indices_calculator.py input.tif --green-band 2 --red-band 3 --nir-band 4 --red-edge-band 5 --blue-band 1
+python vegetation_indices_calculator.py input.tif --green-band 2 --red-band 3 --nir-band 4 --red-edge-band 5
 
 # Use percentile normalization and save raw values
 python vegetation_indices_calculator.py input.tif --normalize percentile --save-raw
@@ -133,24 +131,6 @@ python vegetation_indices_calculator.py /path/to/folder --batch --indices ALL --
 | TDVI | Enhanced vegetation contrast | Transformed NDVI |
 | ClGreen | Chlorophyll estimation | Green chlorophyll index |
 | ClRedEdge | Advanced chlorophyll analysis | Red edge chlorophyll index |
-| EXG | Early growth, weed detection | Excess green for plant segmentation |
-
-#### Spatial Reference System Handling
-
-The vegetation indices calculator automatically preserves all spatial reference information from input files:
-
-- **CRS Preservation**: Output files maintain the exact same Coordinate Reference System as the input
-- **Geotransform**: Spatial positioning and pixel size are preserved
-- **Bounds**: Geographic extent remains unchanged
-- **NoData Handling**: Proper handling of invalid/missing pixels
-
-**Supported CRS Types:**
-- Geographic coordinate systems (e.g., WGS84, NAD83)
-- Projected coordinate systems (e.g., UTM, State Plane)
-- Custom projections and local coordinate systems
-
-**Verification:**
-The calculator displays CRS information during processing and confirms preservation in output files.
 
 ### NDVI Calculator (Legacy)
 
