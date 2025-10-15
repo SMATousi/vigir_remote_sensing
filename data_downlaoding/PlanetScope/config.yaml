@@ -44,10 +44,11 @@ date_range:
 item_types:
   - PSScene                # 4- or 8-band PlanetScope scenes
 asset_types:
-  - ortho_analytic_8b      # surface-reflectance GeoTIFF
+  # - ortho_analytic_8b_sr      # surface-reflectance GeoTIFF
   # - ortho_analytic_4b 
   # - analytic_sr
   # - ortho_visual
+  - ortho_udm2
 
 # ─── Basic quality filters ────────────────────────────────────────
 cloud_cover:
@@ -56,7 +57,7 @@ cloud_cover:
 
 # ─── Download behaviour ───────────────────────────────────────────
 output:
-  directory: "/home/alitousi/Desktop/PlanetScope_downloads/2025"
+  directory: "/home/alitousi/Desktop/PlanetScope_downloads_ortho_sr_udm2_sr/2025"
   clip_to_aoi: true       # set true if you later add a clipping step
   overwrite: false         # skip a file if it already exists
   keep_full_scene: false   # keep the full scene instead of the clip
