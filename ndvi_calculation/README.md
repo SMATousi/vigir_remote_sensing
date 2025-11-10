@@ -1,9 +1,26 @@
-# NDVI Calculator & Analysis Tools
+# Vegetation Indices Calculator & Analysis Tools
 
-A comprehensive Python toolkit for calculating NDVI (Normalized Difference Vegetation Index), performing spatial clustering, temporal analysis, and evaluating clustering results against yield maps.
+A comprehensive Python toolkit for calculating multiple vegetation indices, NDVI analysis, spatial clustering, temporal analysis, and evaluating clustering results against yield maps.
 
 ## Features
 
+### Vegetation Indices Calculator
+- **9 Vegetation Indices**: Calculate multiple indices from multispectral imagery
+  - **NDVI**: Normalized Difference Vegetation Index `(NIR - Red) / (NIR + Red)`
+  - **NDWI**: Normalized Difference Water Index `(Green - NIR) / (Green + NIR)`
+  - **GNDVI**: Green NDVI `(NIR - Green) / (NIR + Green)`
+  - **NDRE**: Normalized Difference Red Edge Index `(NIR - RedEdge) / (NIR + RedEdge)`
+  - **NGRDI**: Normalized Green-Red Difference Index `(Green - Red) / (Green + Red)`
+  - **TDVI**: Transformed NDVI `sqrt((NIR - Red) / (NIR + Red) + 0.5)`
+  - **ClGreen**: Green Chlorophyll Index `(NIR / Green) - 1`
+  - **ClRedEdge**: Red-edge Chlorophyll Index `(NIR / RedEdge) - 1`
+  - **EXG**: Excess Green Index `2*Green - (Red + Blue)`
+- **Batch Processing**: Process entire folders of TIFF files with organized output structure
+- **Flexible Band Configuration**: Support for different satellite data (Landsat, Sentinel-2, etc.)
+- **Multiple Normalization Methods**: Min-max, percentile-based, and z-score standardization
+- **Comprehensive Visualization**: Multi-index plotting and comparison
+
+### NDVI Calculator (Legacy)
 - **NDVI Calculation**: Computes NDVI for each pixel using the formula: `(NIR - Red) / (NIR + Red)`
 - **Multiple Normalization Methods**: 
   - Min-Max scaling (0-1 range)
@@ -24,7 +41,100 @@ pip install -r requirements.txt
 
 ## Usage
 
-### As a Python Module
+### Vegetation Indices Calculator
+
+#### As a Python Module
+
+```python
+from vegetation_indices_calculator import VegetationIndicesCalculator
+
+# Initialize calculator with band configuration
+calculator = VegetationIndicesCalculator(
+    green_band=1,     # Green band index (1-indexed)
+    red_band=2,       # Red band index (1-indexed)
+    nir_band=3,       # NIR band index (1-indexed)
+    red_edge_band=4,  # Red edge band index (1-indexed)
+    blue_band=5       # Blue band index (1-indexed)
+)
+
+# Calculate multiple indices for a single file
+results = calculator.process_tiff(
+    input_path='path/to/multispectral.tif',
+    indices=['NDVI', 'NDWI', 'GNDVI', 'NDRE', 'EXG'],
+    output_dir='output_folder',
+    normalization_method='min_max',
+    save_raw=True
+)
+
+# Visualize all calculated indices
+calculator.visualize_indices(results, save_plot='vegetation_indices.png')
+```
+
+#### Batch Processing
+
+```python
+from vegetation_indices_calculator import batch_process_folder, VegetationIndicesCalculator
+
+# Initialize calculator
+calculator = VegetationIndicesCalculator(
+    green_band=1, red_band=2, nir_band=3, red_edge_band=4, blue_band=5
+)
+
+# Process all TIFF files in a folder
+batch_process_folder(
+    input_folder='path/to/tiff/folder',
+    output_base_dir='batch_outputs',
+    indices=['NDVI', 'NDWI', 'GNDVI', 'EXG'],
+    calculator=calculator,
+    normalization_method='percentile',
+    save_raw=False
+)
+```
+
+#### Command Line Interface
+
+```bash
+# Calculate single index for one file
+python vegetation_indices_calculator.py input.tif --indices NDVI
+
+# Calculate multiple indices
+python vegetation_indices_calculator.py input.tif --indices NDVI NDWI GNDVI NDRE
+
+# Batch process entire folder
+python vegetation_indices_calculator.py /path/to/folder --batch --indices NDVI NDRE
+
+# Custom band configuration (e.g., for Landsat data)
+python vegetation_indices_calculator.py input.tif --green-band 2 --red-band 3 --nir-band 4 --red-edge-band 5
+
+# Use percentile normalization and save raw values
+python vegetation_indices_calculator.py input.tif --normalize percentile --save-raw
+
+# Visualize results
+python vegetation_indices_calculator.py input.tif --indices NDVI GNDVI --visualize --save-plot results.png
+
+# Calculate ALL available indices
+python vegetation_indices_calculator.py input.tif --indices ALL
+
+# Batch process with all indices
+python vegetation_indices_calculator.py /path/to/folder --batch --indices ALL --save-raw
+```
+
+#### Available Indices and Applications
+
+| Index | Best For | Description |
+|-------|----------|-------------|
+| NDVI | General vegetation health | Standard vegetation index |
+| NDWI | Water stress, irrigation | Water content indicator |
+| GNDVI | Chlorophyll content | Green-based vegetation index |
+| NDRE | Nitrogen status, crop health | Red edge vegetation index |
+| NGRDI | Early growth detection | Green-red difference |
+| TDVI | Enhanced vegetation contrast | Transformed NDVI |
+| ClGreen | Chlorophyll estimation | Green chlorophyll index |
+| ClRedEdge | Advanced chlorophyll analysis | Red edge chlorophyll index |
+
+### NDVI Calculator (Legacy)
+
+#### As a Python Module
 
 ```python
 from ndvi_calculator import NDVICalculator
