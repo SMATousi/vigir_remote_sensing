@@ -140,8 +140,8 @@ def activate_asset(api_key: str, item_type: str, item_id: str, asset_key: str) -
             return None
 
         # Poll for activation
-        for _ in range(60):  # up to ~5 min (60 * 5s)
-            time.sleep(5)
+        for _ in range(300):  # up to ~5 min (60 * 5s)
+            time.sleep(1)
             r2 = requests.get(assets_url, auth=(api_key, ""))
             r2.raise_for_status()
             assets2 = r2.json()
@@ -150,6 +150,94 @@ def activate_asset(api_key: str, item_type: str, item_id: str, asset_key: str) -
         return None
     else:
         return asset_info["location"]
+
+def batch_activate_assets(api_key: str, items: List[Dict[str, Any]], asset_key: str) -> Dict[str, Optional[str]]:
+    """
+    Batch activate assets for all items and return a mapping of item_id -> download_url.
+    This function requests activation for all assets first, then polls for completion.
+    """
+    print(f"\nBatch activating {asset_key} assets for {len(items)} items...")
+    
+    # Step 1: Collect asset info and request activation for inactive assets
+    activation_requests = []
+    already_active = {}
+    
+    for feat in items:
+        item_type = feat["properties"]["item_type"] if "item_type" in feat["properties"] else feat["id"].split("_")[0]
+        item_id = feat["id"]
+        
+        assets_url = f"{API_ROOT}/item-types/{item_type}/items/{item_id}/assets"
+        try:
+            r = requests.get(assets_url, auth=(api_key, ""))
+            r.raise_for_status()
+            assets = r.json()
+            
+            if asset_key not in assets:
+                print(f"  [skip] No {asset_key} asset for {item_id}")
+                continue
+                
+            asset_info = assets[asset_key]
+            if asset_info["status"] == "active":
+                already_active[item_id] = asset_info["location"]
+                print(f"  [active] {item_id} already active")
+            else:
+                # Request activation
+                activate_url = asset_info["_links"]["activate"]
+                ra = requests.post(activate_url, auth=(api_key, ""))
+                if ra.status_code in (200, 202):
+                    activation_requests.append((item_id, item_type, assets_url))
+                    print(f"  [requested] Activation requested for {item_id}")
+                else:
+                    print(f"  [failed] Activation request failed for {item_id}: {ra.status_code}")
+                    
+        except Exception as e:
+            print(f"  [error] Failed to process {item_id}: {e}")
+            continue
+    
+    print(f"\nActivation requested for {len(activation_requests)} assets")
+    print(f"Already active: {len(already_active)} assets")
+    
+    # Step 2: Poll for activation completion
+    result_urls = already_active.copy()
+    pending_activations = activation_requests.copy()
+    
+    max_polls = 300  # up to ~5 min total
+    poll_count = 0
+    
+    while pending_activations and poll_count < max_polls:
+        poll_count += 1
+        if poll_count % 30 == 0:  # Progress update every 30 seconds
+            print(f"  Polling... {len(pending_activations)} assets still pending (attempt {poll_count}/{max_polls})")
+        
+        time.sleep(1)
+        completed_this_round = []
+        
+        for item_id, item_type, assets_url in pending_activations:
+            try:
+                r = requests.get(assets_url, auth=(api_key, ""))
+                r.raise_for_status()
+                assets = r.json()
+                
+                if assets[asset_key]["status"] == "active":
+                    result_urls[item_id] = assets[asset_key]["location"]
+                    completed_this_round.append((item_id, item_type, assets_url))
+                    print(f"  [ready] {item_id} activation complete")
+                    
+            except Exception as e:
+                print(f"  [error] Polling failed for {item_id}: {e}")
+                completed_this_round.append((item_id, item_type, assets_url))  # Remove from pending
+        
+        # Remove completed items from pending list
+        for completed_item in completed_this_round:
+            pending_activations.remove(completed_item)
+    
+    if pending_activations:
+        print(f"\n[warning] {len(pending_activations)} assets did not activate within timeout:")
+        for item_id, _, _ in pending_activations:
+            print(f"  - {item_id}")
+    
+    print(f"\nBatch activation complete: {len(result_urls)} assets ready for download")
+    return result_urls
 
 def download_asset(location_url: str, api_key: str, outpath: pathlib.Path) -> pathlib.Path:
     with requests.get(location_url, auth=(api_key, ""), stream=True) as r:
@@ -291,30 +379,69 @@ def get_monthly_statistics_roi(cfg: Dict[str, Any], api_key: str, year: int) -> 
     for m in months:
         print(f"\nAnalyzing {month_name(m)} {year}...")
         items = search_items_for_month(cfg, api_key, year, m)
-        total_count = 0
+        total_count = len(items)
+        
+        if total_count == 0:
+            print(f"  No items found for {month_name(m)} {year}")
+            month_stat = {
+                "Month": month_name(m),
+                "Year": year,
+                "Total_Images": 0,
+                "Images_Under_5_Percent_Cloud_ROI": 0,
+                "Images_Zero_Cloud_ROI": 0,
+                "Percent_Under_5_Cloud_ROI": 0,
+                "Percent_Zero_Cloud_ROI": 0,
+            }
+            monthly_stats.append(month_stat)
+            continue
+        
+        print(f"  Found {total_count} items, batch activating {UDM2_ASSET_KEY} assets...")
+        
+        # Batch activate all assets for this month
+        asset_urls = batch_activate_assets(api_key, items, UDM2_ASSET_KEY)
+        
+        print(f"\nProcessing {len(asset_urls)} activated assets...")
+        
         lt5 = 0
         eq0 = 0
+        processed_count = 0
 
         for feat in items:
-            item_type = feat["properties"]["item_type"] if "item_type" in feat["properties"] else feat["id"].split("_")[0]
             item_id = feat["id"]
-            total_count += 1
-
-            # Activate + download UDM2
-            loc = activate_asset(api_key, item_type, item_id, UDM2_ASSET_KEY)
-            if not loc:
-                print(f"  [skip] No {UDM2_ASSET_KEY} for {item_id}")
+            
+            # Check if asset was successfully activated
+            if item_id not in asset_urls or asset_urls[item_id] is None:
+                print(f"  [skip] No activated {UDM2_ASSET_KEY} for {item_id}")
+                per_scene_rows.append({
+                    "item_id": item_id,
+                    "acquired": feat["properties"].get("acquired"),
+                    "roi_cloud_percent": None,
+                    "note": "asset activation failed"
+                })
                 continue
 
+            # Download the asset
             out_tif = DOWNLOAD_DIR / f"{item_id}_udm2.tif"
             if not out_tif.exists():
                 try:
-                    download_asset(loc, api_key, out_tif)
+                    download_asset(asset_urls[item_id], api_key, out_tif)
+                    print(f"  [downloaded] {item_id}")
                 except Exception as e:
                     print(f"  [warn] download failed for {item_id}: {e}")
+                    per_scene_rows.append({
+                        "item_id": item_id,
+                        "acquired": feat["properties"].get("acquired"),
+                        "roi_cloud_percent": None,
+                        "note": f"download failed: {e}"
+                    })
                     continue
+            else:
+                print(f"  [cached] {item_id} (already downloaded)")
 
+            # Compute ROI cloud percentage
             roi_cloud = compute_roi_cloud_percent(out_tif, roi_geom)
+            processed_count += 1
+            
             if roi_cloud is None:
                 # No overlap or no valid pixels; keep but flag
                 per_scene_rows.append({
@@ -349,7 +476,9 @@ def get_monthly_statistics_roi(cfg: Dict[str, Any], api_key: str, year: int) -> 
         }
         monthly_stats.append(month_stat)
 
-        print(f"  Total scenes (intersecting search): {total_count}")
+        print(f"\n  Month Summary for {month_name(m)} {year}:")
+        print(f"  Total scenes found: {total_count}")
+        print(f"  Successfully processed: {processed_count}")
         print(f"  ROI < 5% cloud: {lt5} ({month_stat['Percent_Under_5_Cloud_ROI']}%)")
         print(f"  ROI = 0% cloud: {eq0} ({month_stat['Percent_Zero_Cloud_ROI']}%)")
 
