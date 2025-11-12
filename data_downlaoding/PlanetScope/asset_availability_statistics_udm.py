@@ -26,6 +26,7 @@ import requests
 import yaml
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 import rasterio
 from rasterio.mask import mask as rio_mask
@@ -201,7 +202,7 @@ def batch_activate_assets(api_key: str, items: List[Dict[str, Any]], asset_key: 
     result_urls = already_active.copy()
     pending_activations = activation_requests.copy()
     
-    max_polls = 300  # up to ~5 min total
+    max_polls = 0  # up to ~5 min total
     poll_count = 0
     
     while pending_activations and poll_count < max_polls:
@@ -485,30 +486,169 @@ def get_monthly_statistics_roi(cfg: Dict[str, Any], api_key: str, year: int) -> 
     per_scene_df = pd.DataFrame(per_scene_rows)
     return monthly_stats, per_scene_df
 
+# def create_visualization(statistics: List[Dict[str, Any]], output_path: str) -> None:
+#     df = pd.DataFrame(statistics)
+#     # Simple two-panel plot (no seaborn; keep lightweight)
+#     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
+#     fig.suptitle('PlanetScope Availability (ROI-based cloud % via UDM2)', fontsize=14, fontweight='bold')
+
+#     ax1.bar(df['Month'], df['Total_Images'])
+#     ax1.set_title('Total Scenes by Month')
+#     ax1.set_ylabel('Count')
+#     ax1.tick_params(axis='x', rotation=45)
+
+#     x = range(len(df))
+#     ax2.plot(df['Month'], df['Percent_Under_5_Cloud_ROI'], marker='o', label='< 5% ROI cloud')
+#     ax2.plot(df['Month'], df['Percent_Zero_Cloud_ROI'], marker='s', label='== 0% ROI cloud')
+#     ax2.set_title('ROI-based Usable Percentages')
+#     ax2.set_ylabel('Percent (%)')
+#     ax2.tick_params(axis='x', rotation=45)
+#     ax2.legend()
+
+#     plt.tight_layout()
+#     png_path = f"{output_path}_roi_udm2.png"
+#     plt.savefig(png_path, dpi=200, bbox_inches='tight')
+#     print(f"✓ Visualization saved: {png_path}")
+#     plt.show()
+
+
 def create_visualization(statistics: List[Dict[str, Any]], output_path: str) -> None:
+    """Create visualizations of the asset availability statistics."""
+    if not statistics:
+        print("[warning] No statistics data available for visualization")
+        return
+        
     df = pd.DataFrame(statistics)
-    # Simple two-panel plot (no seaborn; keep lightweight)
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
-    fig.suptitle('PlanetScope Availability (ROI-based cloud % via UDM2)', fontsize=14, fontweight='bold')
-
-    ax1.bar(df['Month'], df['Total_Images'])
-    ax1.set_title('Total Scenes by Month')
-    ax1.set_ylabel('Count')
+    
+    # Check if required columns exist
+    required_columns = ['Month', 'Total_Images', 'Images_Under_5_Percent_Cloud_ROI', 'Images_Zero_Cloud_ROI', 
+                       'Percent_Under_5_Cloud_ROI', 'Percent_Zero_Cloud_ROI']
+    missing_columns = [col for col in required_columns if col not in df.columns]
+    
+    if missing_columns:
+        print(f"[error] Missing required columns in data: {missing_columns}")
+        print(f"Available columns: {list(df.columns)}")
+        return
+    
+    # Set up the plotting style
+    plt.style.use('default')
+    sns.set_palette("husl")
+    
+    # Create a figure with subplots
+    fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(15, 12))
+    fig.suptitle('PlanetScope Asset Availability Statistics (ROI-based)', fontsize=16, fontweight='bold')
+    
+    year = statistics[0]["Year"] if statistics else "Unknown"
+    
+    # Plot 1: Total Images by Month (Bar Chart)
+    ax1.bar(df['Month'], df['Total_Images'], color='skyblue', alpha=0.8)
+    ax1.set_title('Total Images Available by Month', fontweight='bold')
+    ax1.set_ylabel('Number of Images')
     ax1.tick_params(axis='x', rotation=45)
-
-    x = range(len(df))
-    ax2.plot(df['Month'], df['Percent_Under_5_Cloud_ROI'], marker='o', label='< 5% ROI cloud')
-    ax2.plot(df['Month'], df['Percent_Zero_Cloud_ROI'], marker='s', label='== 0% ROI cloud')
-    ax2.set_title('ROI-based Usable Percentages')
-    ax2.set_ylabel('Percent (%)')
-    ax2.tick_params(axis='x', rotation=45)
+    ax1.grid(axis='y', alpha=0.3)
+    
+    # Add value labels on bars
+    for i, v in enumerate(df['Total_Images']):
+        if v > 0:  # Only add label if there are images
+            ax1.text(i, v + max(df['Total_Images']) * 0.01, str(v), ha='center', va='bottom', fontweight='bold')
+    
+    # Plot 2: Cloud Coverage Comparison (Grouped Bar Chart)
+    x = range(len(df['Month']))
+    width = 0.35
+    
+    ax2.bar([i - width/2 for i in x], df['Images_Under_5_Percent_Cloud_ROI'], 
+            width, label='< 5% Cloud (ROI)', color='lightgreen', alpha=0.8)
+    ax2.bar([i + width/2 for i in x], df['Images_Zero_Cloud_ROI'], 
+            width, label='0% Cloud (ROI)', color='darkgreen', alpha=0.8)
+    
+    ax2.set_title('Images by Cloud Coverage Threshold (ROI-based)', fontweight='bold')
+    ax2.set_ylabel('Number of Images')
+    ax2.set_xticks(x)
+    ax2.set_xticklabels(df['Month'], rotation=45)
     ax2.legend()
-
+    ax2.grid(axis='y', alpha=0.3)
+    
+    # Plot 3: Percentage of Usable Images (Line Plot)
+    ax3.plot(df['Month'], df['Percent_Under_5_Cloud_ROI'], 
+             marker='o', linewidth=2, markersize=8, label='< 5% Cloud (ROI)', color='orange')
+    ax3.plot(df['Month'], df['Percent_Zero_Cloud_ROI'], 
+             marker='s', linewidth=2, markersize=8, label='0% Cloud (ROI)', color='red')
+    
+    ax3.set_title('Percentage of Usable Images by Month (ROI-based)', fontweight='bold')
+    ax3.set_ylabel('Percentage (%)')
+    ax3.tick_params(axis='x', rotation=45)
+    ax3.legend()
+    ax3.grid(alpha=0.3)
+    
+    # Set y-axis limits with safety check
+    max_percent = max(df['Percent_Under_5_Cloud_ROI'].max(), df['Percent_Zero_Cloud_ROI'].max())
+    if max_percent > 0:
+        ax3.set_ylim(0, max_percent + 5)
+    else:
+        ax3.set_ylim(0, 10)
+    
+    # Plot 4: Summary Statistics (Horizontal Bar Chart)
+    total_images = df['Total_Images'].sum()
+    total_low_cloud = df['Images_Under_5_Percent_Cloud_ROI'].sum()
+    total_no_cloud = df['Images_Zero_Cloud_ROI'].sum()
+    
+    categories = ['Total Images\n(Jan-Sep)', 'Images < 5% Cloud\n(Jan-Sep)', 'Images 0% Cloud\n(Jan-Sep)']
+    values = [total_images, total_low_cloud, total_no_cloud]
+    colors = ['lightblue', 'lightgreen', 'darkgreen']
+    
+    bars = ax4.barh(categories, values, color=colors, alpha=0.8)
+    ax4.set_title('Summary Statistics (ROI-based)', fontweight='bold')
+    ax4.set_xlabel('Number of Images')
+    
+    # Add value labels on bars with safety check
+    for i, (bar, value) in enumerate(zip(bars, values)):
+        width = bar.get_width()
+        if total_images > 0:
+            percentage = round(value/total_images*100, 1) if i > 0 else 100
+        else:
+            percentage = 0
+        
+        label_x = width + max(values) * 0.01 if max(values) > 0 else 1
+        ax4.text(label_x, bar.get_y() + bar.get_height()/2, 
+                f'{value}\n({percentage}%)', ha='left', va='center', fontweight='bold')
+    
+    # Adjust layout and save
     plt.tight_layout()
-    png_path = f"{output_path}_roi_udm2.png"
-    plt.savefig(png_path, dpi=200, bbox_inches='tight')
-    print(f"✓ Visualization saved: {png_path}")
+    
+    # Save the plot
+    plot_path = f"{output_path}_visualization.png"
+    plt.savefig(plot_path, dpi=300, bbox_inches='tight')
+    print(f"\n✓ Visualization saved to: {plot_path}")
+    
+    # Also save as PDF for better quality
+    pdf_path = f"{output_path}_visualization.pdf"
+    plt.savefig(pdf_path, bbox_inches='tight')
+    print(f"✓ High-quality PDF saved to: {pdf_path}")
+    
+    # Show the plot
     plt.show()
+    
+    # Print summary to console
+    print(f"\n" + "="*60)
+    print(f"SUMMARY STATISTICS FOR {year}")
+    print(f"="*60)
+    print(f"Total images (Jan-Sep): {total_images}")
+    if total_images > 0:
+        print(f"Images < 5% cloud: {total_low_cloud} ({round(total_low_cloud/total_images*100, 1)}%)")
+        print(f"Images 0% cloud: {total_no_cloud} ({round(total_no_cloud/total_images*100, 1)}%)")
+    else:
+        print(f"Images < 5% cloud: {total_low_cloud} (0.0%)")
+        print(f"Images 0% cloud: {total_no_cloud} (0.0%)")
+    
+    if statistics:
+        best_month_total = max(statistics, key=lambda x: x["Total_Images"])
+        worst_month_total = min(statistics, key=lambda x: x["Total_Images"])
+        best_month_clear = max(statistics, key=lambda x: x["Images_Zero_Cloud_ROI"])
+        
+        print(f"\nBest month for total images: {best_month_total['Month']} ({best_month_total['Total_Images']} images)")
+        print(f"Worst month for total images: {worst_month_total['Month']} ({worst_month_total['Total_Images']} images)")
+        print(f"Best month for clear images: {best_month_clear['Month']} ({best_month_clear['Images_Zero_Cloud_ROI']} clear images)")
+    print(f"="*60)
 
 def main() -> None:
     print("PlanetScope ROI Cloud Coverage via UDM2")
