@@ -1,3 +1,6 @@
 requests
 PyYAML
 planet
+pandas>=1.4.0
+matplotlib>=3.5.0
+seaborn>=0.11.0

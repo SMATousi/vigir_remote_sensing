@@ -1,0 +1,31 @@
+PlanetScope Asset Availability Statistics Report
+==================================================
+
+Analysis Year: 2025
+Analysis Period: January - September
+Generated: 2025-11-11 14:39:32
+
+Monthly Breakdown:
+--------------------------------------------------------------------------------
+Month        Total    <5% Cloud    0% Cloud   <5% %    0% %    
+--------------------------------------------------------------------------------
+January      49       32           28         65.3     57.1    
+February     55       24           19         43.6     34.5    
+March        56       34           30         60.7     53.6    
+April        44       15           10         34.1     22.7    
+May          49       20           14         40.8     28.6    
+June         43       15           11         34.9     25.6    
+July         46       7            4          15.2     8.7     
+August       63       23           14         36.5     22.2    
+September    40       19           17         47.5     42.5    
+
+==================================================
+Summary Statistics:
+==================================================
+Total images (Jan-Sep): 445
+Total images < 5% cloud: 189 (42.5%)
+Total images 0% cloud: 147 (33.0%)
+
+Best month for total images: August (63 images)
+Worst month for total images: September (40 images)
+Best month for clear images: March (30 clear images)

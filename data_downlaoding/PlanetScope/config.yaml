@@ -7,7 +7,7 @@
 # If both are present, the file wins.
 aoi:
   # geojson_file: "/home/macula/SMATousi/projects/vigir_remote_sensing/ndvi_calculation/Ellis-Field/Ellis_field_full_extent_soil_survey.geojson"     # path to GeoJSON polygon   (OPTION A)
-  geojson_file: "~/Downloads/planet_outline/outline_json.geojson"
+  geojson_file: "./Centralia_2025_Boundary_WGS.geojson"
   # geometry:                            # inline Polygon            (OPTION B)
   #   type: Polygon
   #   coordinates:
@@ -44,11 +44,11 @@ date_range:
 item_types:
   - PSScene                # 4- or 8-band PlanetScope scenes
 asset_types:
-  # - ortho_analytic_8b_sr      # surface-reflectance GeoTIFF
+  - ortho_analytic_8b_sr      # surface-reflectance GeoTIFF
   # - ortho_analytic_4b 
   # - analytic_sr
   # - ortho_visual
-  - ortho_udm2
+  # - ortho_udm2
 
 # ─── Basic quality filters ────────────────────────────────────────
 cloud_cover:
