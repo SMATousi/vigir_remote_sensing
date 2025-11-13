@@ -34,13 +34,9 @@ from shapely.geometry import shape, mapping
 from shapely.ops import unary_union
 import numpy as np
 from rasterio.warp import transform_geom
-import rasterio
-from rasterio.mask import mask as rio_mask
-from rasterio.warp import transform_geom
-import numpy as np
-from shapely.geometry import shape, mapping
-from shapely.ops import unary_union
 from shapely.validation import make_valid
+from collections import defaultdict
+import re
 # ----------------------------
 # CONFIGURABLE UDM2 CLASSES
 # ----------------------------
@@ -370,6 +366,205 @@ def compute_roi_cloud_percent(udm2_path: pathlib.Path, roi_geom_wgs84: Dict[str,
 def month_name(m: int) -> str:
     return ["January","February","March","April","May","June","July","August","September"][m-1]
 
+def parse_filename_timestamp(filename: str) -> Optional[Dict[str, Any]]:
+    """
+    Parse timestamp information from PlanetScope filename.
+    Expected format: YYYYMMDD_HHMMSS_XX_XXXX_udm2.tif
+    Returns dict with date/time components or None if parsing fails.
+    """
+    # Extract just the filename without path
+    basename = pathlib.Path(filename).name
+    
+    # Pattern to match YYYYMMDD_HHMMSS at the start
+    pattern = r'^(\d{4})(\d{2})(\d{2})_(\d{2})(\d{2})(\d{2})'
+    match = re.match(pattern, basename)
+    
+    if not match:
+        return None
+    
+    year, month, day, hour, minute, second = match.groups()
+    
+    try:
+        # Convert to datetime for validation
+        dt = datetime(int(year), int(month), int(day), int(hour), int(minute), int(second))
+        
+        return {
+            'datetime': dt,
+            'year': int(year),
+            'month': int(month),
+            'day': int(day),
+            'hour': int(hour),
+            'minute': int(minute),
+            'second': int(second),
+            'day_of_month': int(day),
+            'hour_of_day': int(hour)
+        }
+    except ValueError:
+        # Invalid date/time values
+        return None
+
+def analyze_temporal_distribution(per_scene_df: pd.DataFrame, cloud_threshold: float = 0.0) -> Dict[str, Any]:
+    """
+    Analyze temporal distribution of usable images (below cloud threshold).
+    Returns analysis results for visualization.
+    """
+    if per_scene_df.empty:
+        return {}
+    
+    # Filter for usable images (below cloud threshold)
+    usable_images = per_scene_df[
+        (per_scene_df['roi_cloud_percent'].notna()) & 
+        (per_scene_df['roi_cloud_percent'] <= cloud_threshold)
+    ].copy()
+    
+    if usable_images.empty:
+        print(f"[warning] No usable images found with <={cloud_threshold}% cloud cover")
+        return {}
+    
+    print(f"\nAnalyzing temporal distribution of {len(usable_images)} usable images (<={cloud_threshold}% cloud)")
+    
+    # Parse timestamps from item_ids (which should match the filename pattern)
+    temporal_data = []
+    failed_parses = 0
+    
+    for _, row in usable_images.iterrows():
+        item_id = row['item_id']
+        timestamp_info = parse_filename_timestamp(item_id)
+        
+        if timestamp_info:
+            temporal_data.append({
+                'item_id': item_id,
+                'roi_cloud_percent': row['roi_cloud_percent'],
+                'day_of_month': timestamp_info['day_of_month'],
+                'hour_of_day': timestamp_info['hour_of_day'],
+                'datetime': timestamp_info['datetime'],
+                'acquired': row.get('acquired', '')
+            })
+        else:
+            failed_parses += 1
+    
+    if failed_parses > 0:
+        print(f"[warning] Failed to parse timestamps for {failed_parses} items")
+    
+    if not temporal_data:
+        print("[warning] No valid timestamps found for temporal analysis")
+        return {}
+    
+    temporal_df = pd.DataFrame(temporal_data)
+    
+    # Aggregate by day of month
+    daily_counts = temporal_df.groupby('day_of_month').size().reset_index(name='count')
+    
+    # Aggregate by hour of day
+    hourly_counts = temporal_df.groupby('hour_of_day').size().reset_index(name='count')
+    
+    # Create complete day range (1-31) and hour range (0-23) for consistent plotting
+    all_days = pd.DataFrame({'day_of_month': range(1, 32)})
+    all_hours = pd.DataFrame({'hour_of_day': range(0, 24)})
+    
+    daily_counts = all_days.merge(daily_counts, on='day_of_month', how='left').fillna(0)
+    hourly_counts = all_hours.merge(hourly_counts, on='hour_of_day', how='left').fillna(0)
+    
+    return {
+        'temporal_df': temporal_df,
+        'daily_counts': daily_counts,
+        'hourly_counts': hourly_counts,
+        'total_usable': len(temporal_data),
+        'cloud_threshold': cloud_threshold,
+        'date_range': {
+            'start': temporal_df['datetime'].min(),
+            'end': temporal_df['datetime'].max()
+        } if len(temporal_data) > 0 else None
+    }
+
+def analyze_monthly_temporal_distribution(per_scene_df: pd.DataFrame, cloud_threshold: float = 0.0) -> Dict[str, Any]:
+    """
+    Analyze temporal distribution of usable images broken down by month.
+    Returns analysis results for monthly visualization.
+    """
+    if per_scene_df.empty:
+        return {}
+    
+    # Filter for usable images (below cloud threshold)
+    usable_images = per_scene_df[
+        (per_scene_df['roi_cloud_percent'].notna()) & 
+        (per_scene_df['roi_cloud_percent'] <= cloud_threshold)
+    ].copy()
+    
+    if usable_images.empty:
+        print(f"[warning] No usable images found with <={cloud_threshold}% cloud cover for monthly analysis")
+        return {}
+    
+    print(f"\nAnalyzing monthly temporal distribution of {len(usable_images)} usable images (<={cloud_threshold}% cloud)")
+    
+    # Parse timestamps from item_ids
+    temporal_data = []
+    failed_parses = 0
+    
+    for _, row in usable_images.iterrows():
+        item_id = row['item_id']
+        timestamp_info = parse_filename_timestamp(item_id)
+        
+        if timestamp_info:
+            temporal_data.append({
+                'item_id': item_id,
+                'roi_cloud_percent': row['roi_cloud_percent'],
+                'month': timestamp_info['month'],
+                'day_of_month': timestamp_info['day_of_month'],
+                'hour_of_day': timestamp_info['hour_of_day'],
+                'datetime': timestamp_info['datetime'],
+                'acquired': row.get('acquired', '')
+            })
+        else:
+            failed_parses += 1
+    
+    if failed_parses > 0:
+        print(f"[warning] Failed to parse timestamps for {failed_parses} items")
+    
+    if not temporal_data:
+        print("[warning] No valid timestamps found for monthly temporal analysis")
+        return {}
+    
+    temporal_df = pd.DataFrame(temporal_data)
+    
+    # Group by month and analyze each month separately
+    monthly_analysis = {}
+    
+    for month in sorted(temporal_df['month'].unique()):
+        month_data = temporal_df[temporal_df['month'] == month]
+        month_name_str = month_name(month)
+        
+        # Daily distribution for this month
+        daily_counts = month_data.groupby('day_of_month').size().reset_index(name='count')
+        all_days = pd.DataFrame({'day_of_month': range(1, 32)})
+        daily_counts = all_days.merge(daily_counts, on='day_of_month', how='left').fillna(0)
+        
+        # Hourly distribution for this month
+        hourly_counts = month_data.groupby('hour_of_day').size().reset_index(name='count')
+        all_hours = pd.DataFrame({'hour_of_day': range(0, 24)})
+        hourly_counts = all_hours.merge(hourly_counts, on='hour_of_day', how='left').fillna(0)
+        
+        monthly_analysis[month] = {
+            'month_name': month_name_str,
+            'month_number': month,
+            'temporal_df': month_data,
+            'daily_counts': daily_counts,
+            'hourly_counts': hourly_counts,
+            'total_usable': len(month_data),
+            'date_range': {
+                'start': month_data['datetime'].min(),
+                'end': month_data['datetime'].max()
+            }
+        }
+    
+    return {
+        'monthly_data': monthly_analysis,
+        'overall_temporal_df': temporal_df,
+        'total_usable': len(temporal_data),
+        'cloud_threshold': cloud_threshold,
+        'months_with_data': list(monthly_analysis.keys())
+    }
+
 def get_monthly_statistics_roi(cfg: Dict[str, Any], api_key: str, year: int) -> Tuple[List[Dict[str, Any]], pd.DataFrame]:
     months = list(range(1, 10))  # Jan–Sep
     roi_geom = read_aoi(cfg)
@@ -486,31 +681,241 @@ def get_monthly_statistics_roi(cfg: Dict[str, Any], api_key: str, year: int) -> 
     per_scene_df = pd.DataFrame(per_scene_rows)
     return monthly_stats, per_scene_df
 
-# def create_visualization(statistics: List[Dict[str, Any]], output_path: str) -> None:
-#     df = pd.DataFrame(statistics)
-#     # Simple two-panel plot (no seaborn; keep lightweight)
-#     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
-#     fig.suptitle('PlanetScope Availability (ROI-based cloud % via UDM2)', fontsize=14, fontweight='bold')
+def create_temporal_distribution_plot(temporal_analysis: Dict[str, Any], output_path: str) -> None:
+    """Create visualization showing temporal distribution of usable images."""
+    if not temporal_analysis or 'daily_counts' not in temporal_analysis:
+        print("[warning] No temporal analysis data available for visualization")
+        return
+    
+    daily_counts = temporal_analysis['daily_counts']
+    hourly_counts = temporal_analysis['hourly_counts']
+    total_usable = temporal_analysis['total_usable']
+    cloud_threshold = temporal_analysis['cloud_threshold']
+    date_range = temporal_analysis.get('date_range')
+    
+    # Set up the plotting style
+    plt.style.use('default')
+    sns.set_palette("husl")
+    
+    # Create figure with subplots for temporal distribution
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(14, 10))
+    fig.suptitle(f'Temporal Distribution of Usable Images (<={cloud_threshold}% Cloud Cover)', 
+                 fontsize=16, fontweight='bold')
+    
+    # Plot 1: Distribution by Day of Month
+    bars1 = ax1.bar(daily_counts['day_of_month'], daily_counts['count'], 
+                    color='lightgreen', alpha=0.8, edgecolor='darkgreen')
+    ax1.set_title('Distribution of Usable Images by Day of Month', fontweight='bold')
+    ax1.set_xlabel('Day of Month')
+    ax1.set_ylabel('Number of Images')
+    ax1.set_xlim(0.5, 31.5)
+    ax1.set_xticks(range(1, 32, 2))  # Show every other day to avoid crowding
+    ax1.grid(axis='y', alpha=0.3)
+    
+    # Add value labels on bars (only for non-zero values)
+    for bar, count in zip(bars1, daily_counts['count']):
+        if count > 0:
+            ax1.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.1, 
+                    str(int(count)), ha='center', va='bottom', fontweight='bold', fontsize=8)
+    
+    # Plot 2: Distribution by Hour of Day
+    bars2 = ax2.bar(hourly_counts['hour_of_day'], hourly_counts['count'], 
+                    color='skyblue', alpha=0.8, edgecolor='darkblue')
+    ax2.set_title('Distribution of Usable Images by Hour of Day', fontweight='bold')
+    ax2.set_xlabel('Hour of Day (UTC)')
+    ax2.set_ylabel('Number of Images')
+    ax2.set_xlim(-0.5, 23.5)
+    ax2.set_xticks(range(0, 24, 2))  # Show every other hour
+    ax2.grid(axis='y', alpha=0.3)
+    
+    # Add value labels on bars (only for non-zero values)
+    for bar, count in zip(bars2, hourly_counts['count']):
+        if count > 0:
+            ax2.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.1, 
+                    str(int(count)), ha='center', va='bottom', fontweight='bold', fontsize=8)
+    
+    # Add summary text
+    summary_text = f"Total usable images: {total_usable}"
+    if date_range:
+        summary_text += f"\nDate range: {date_range['start'].strftime('%Y-%m-%d')} to {date_range['end'].strftime('%Y-%m-%d')}"
+    
+    fig.text(0.02, 0.02, summary_text, fontsize=10, 
+             bbox=dict(boxstyle="round,pad=0.3", facecolor="lightgray", alpha=0.8))
+    
+    plt.tight_layout()
+    
+    # Save the temporal distribution plot
+    temporal_plot_path = f"{output_path}_temporal_distribution.png"
+    plt.savefig(temporal_plot_path, dpi=300, bbox_inches='tight')
+    print(f"✓ Temporal distribution plot saved to: {temporal_plot_path}")
+    
+    # Also save as PDF
+    temporal_pdf_path = f"{output_path}_temporal_distribution.pdf"
+    plt.savefig(temporal_pdf_path, bbox_inches='tight')
+    print(f"✓ Temporal distribution PDF saved to: {temporal_pdf_path}")
+    
+    plt.show()
+    
+    # Print temporal statistics
+    print(f"\n" + "="*60)
+    print(f"TEMPORAL DISTRIBUTION ANALYSIS")
+    print(f"="*60)
+    print(f"Total usable images (<={cloud_threshold}% cloud): {total_usable}")
+    
+    if date_range:
+        print(f"Date range: {date_range['start'].strftime('%Y-%m-%d %H:%M:%S')} to {date_range['end'].strftime('%Y-%m-%d %H:%M:%S')}")
+    
+    # Find peak days and hours
+    peak_day = daily_counts.loc[daily_counts['count'].idxmax()]
+    peak_hour = hourly_counts.loc[hourly_counts['count'].idxmax()]
+    
+    print(f"\nPeak acquisition day: Day {int(peak_day['day_of_month'])} ({int(peak_day['count'])} images)")
+    print(f"Peak acquisition hour: {int(peak_hour['hour_of_day'])}:00 UTC ({int(peak_hour['count'])} images)")
+    
+    # Show days with most coverage
+    top_days = daily_counts[daily_counts['count'] > 0].nlargest(5, 'count')
+    if not top_days.empty:
+        print(f"\nTop 5 days with most coverage:")
+        for _, row in top_days.iterrows():
+            print(f"  Day {int(row['day_of_month'])}: {int(row['count'])} images")
+    
+    # Show hours with most coverage
+    top_hours = hourly_counts[hourly_counts['count'] > 0].nlargest(5, 'count')
+    if not top_hours.empty:
+        print(f"\nTop 5 hours with most coverage:")
+        for _, row in top_hours.iterrows():
+            print(f"  {int(row['hour_of_day'])}:00 UTC: {int(row['count'])} images")
+    
+    print(f"="*60)
 
-#     ax1.bar(df['Month'], df['Total_Images'])
-#     ax1.set_title('Total Scenes by Month')
-#     ax1.set_ylabel('Count')
-#     ax1.tick_params(axis='x', rotation=45)
-
-#     x = range(len(df))
-#     ax2.plot(df['Month'], df['Percent_Under_5_Cloud_ROI'], marker='o', label='< 5% ROI cloud')
-#     ax2.plot(df['Month'], df['Percent_Zero_Cloud_ROI'], marker='s', label='== 0% ROI cloud')
-#     ax2.set_title('ROI-based Usable Percentages')
-#     ax2.set_ylabel('Percent (%)')
-#     ax2.tick_params(axis='x', rotation=45)
-#     ax2.legend()
-
-#     plt.tight_layout()
-#     png_path = f"{output_path}_roi_udm2.png"
-#     plt.savefig(png_path, dpi=200, bbox_inches='tight')
-#     print(f"✓ Visualization saved: {png_path}")
-#     plt.show()
-
+def create_monthly_temporal_distribution_plot(monthly_analysis: Dict[str, Any], output_path: str) -> None:
+    """Create visualization showing temporal distribution of usable images per month."""
+    if not monthly_analysis or 'monthly_data' not in monthly_analysis:
+        print("[warning] No monthly analysis data available for visualization")
+        return
+    
+    monthly_data = monthly_analysis['monthly_data']
+    cloud_threshold = monthly_analysis['cloud_threshold']
+    total_usable = monthly_analysis['total_usable']
+    
+    if not monthly_data:
+        print("[warning] No monthly data found for visualization")
+        return
+    
+    # Set up the plotting style
+    plt.style.use('default')
+    sns.set_palette("husl")
+    
+    # Calculate number of months and create subplot layout
+    num_months = len(monthly_data)
+    cols = min(3, num_months)  # Max 3 columns
+    rows = (num_months + cols - 1) // cols  # Ceiling division
+    
+    # Create figure with subplots - one row per type (daily/hourly), columns for months
+    fig = plt.figure(figsize=(5 * cols, 8 * rows))
+    fig.suptitle(f'Monthly Temporal Distribution of Usable Images (<={cloud_threshold}% Cloud Cover)', 
+                 fontsize=16, fontweight='bold')
+    
+    # Create subplots for daily distribution (top row for each set)
+    subplot_idx = 1
+    
+    # Daily distribution plots
+    for i, (month_num, month_info) in enumerate(sorted(monthly_data.items())):
+        ax = plt.subplot(rows * 2, cols, subplot_idx)
+        
+        daily_counts = month_info['daily_counts']
+        month_name_str = month_info['month_name']
+        total_month = month_info['total_usable']
+        
+        bars = ax.bar(daily_counts['day_of_month'], daily_counts['count'], 
+                     color='lightgreen', alpha=0.8, edgecolor='darkgreen')
+        ax.set_title(f'{month_name_str} - Daily Distribution ({total_month} images)', fontweight='bold')
+        ax.set_xlabel('Day of Month')
+        ax.set_ylabel('Number of Images')
+        ax.set_xlim(0.5, 31.5)
+        ax.set_xticks(range(1, 32, 5))  # Show every 5th day
+        ax.grid(axis='y', alpha=0.3)
+        
+        # Add value labels on bars (only for non-zero values)
+        for bar, count in zip(bars, daily_counts['count']):
+            if count > 0:
+                ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.05, 
+                       str(int(count)), ha='center', va='bottom', fontweight='bold', fontsize=7)
+        
+        subplot_idx += 1
+    
+    # Hourly distribution plots (bottom row for each set)
+    for i, (month_num, month_info) in enumerate(sorted(monthly_data.items())):
+        ax = plt.subplot(rows * 2, cols, subplot_idx)
+        
+        hourly_counts = month_info['hourly_counts']
+        month_name_str = month_info['month_name']
+        
+        bars = ax.bar(hourly_counts['hour_of_day'], hourly_counts['count'], 
+                     color='skyblue', alpha=0.8, edgecolor='darkblue')
+        ax.set_title(f'{month_name_str} - Hourly Distribution', fontweight='bold')
+        ax.set_xlabel('Hour of Day (UTC)')
+        ax.set_ylabel('Number of Images')
+        ax.set_xlim(-0.5, 23.5)
+        ax.set_xticks(range(0, 24, 4))  # Show every 4th hour
+        ax.grid(axis='y', alpha=0.3)
+        
+        # Add value labels on bars (only for non-zero values)
+        for bar, count in zip(bars, hourly_counts['count']):
+            if count > 0:
+                ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.05, 
+                       str(int(count)), ha='center', va='bottom', fontweight='bold', fontsize=7)
+        
+        subplot_idx += 1
+    
+    # Add summary text
+    summary_text = f"Total usable images across all months: {total_usable}"
+    fig.text(0.02, 0.02, summary_text, fontsize=10, 
+             bbox=dict(boxstyle="round,pad=0.3", facecolor="lightgray", alpha=0.8))
+    
+    plt.tight_layout()
+    
+    # Save the monthly temporal distribution plot
+    monthly_plot_path = f"{output_path}_monthly_temporal_distribution.png"
+    plt.savefig(monthly_plot_path, dpi=300, bbox_inches='tight')
+    print(f"✓ Monthly temporal distribution plot saved to: {monthly_plot_path}")
+    
+    # Also save as PDF
+    monthly_pdf_path = f"{output_path}_monthly_temporal_distribution.pdf"
+    plt.savefig(monthly_pdf_path, bbox_inches='tight')
+    print(f"✓ Monthly temporal distribution PDF saved to: {monthly_pdf_path}")
+    
+    plt.show()
+    
+    # Print monthly statistics
+    print(f"\n" + "="*60)
+    print(f"MONTHLY TEMPORAL DISTRIBUTION ANALYSIS")
+    print(f"="*60)
+    print(f"Total usable images (<={cloud_threshold}% cloud): {total_usable}")
+    print(f"Months with data: {len(monthly_data)}")
+    
+    for month_num, month_info in sorted(monthly_data.items()):
+        month_name_str = month_info['month_name']
+        total_month = month_info['total_usable']
+        date_range = month_info['date_range']
+        
+        print(f"\n{month_name_str}:")
+        print(f"  Total images: {total_month}")
+        print(f"  Date range: {date_range['start'].strftime('%Y-%m-%d')} to {date_range['end'].strftime('%Y-%m-%d')}")
+        
+        # Find peak day and hour for this month
+        daily_counts = month_info['daily_counts']
+        hourly_counts = month_info['hourly_counts']
+        
+        if daily_counts['count'].max() > 0:
+            peak_day = daily_counts.loc[daily_counts['count'].idxmax()]
+            print(f"  Peak day: Day {int(peak_day['day_of_month'])} ({int(peak_day['count'])} images)")
+        
+        if hourly_counts['count'].max() > 0:
+            peak_hour = hourly_counts.loc[hourly_counts['count'].idxmax()]
+            print(f"  Peak hour: {int(peak_hour['hour_of_day'])}:00 UTC ({int(peak_hour['count'])} images)")
+    
+    print(f"="*60)
 
 def create_visualization(statistics: List[Dict[str, Any]], output_path: str) -> None:
     """Create visualizations of the asset availability statistics."""
@@ -682,6 +1087,28 @@ def main() -> None:
     # Summary viz
     output_base = f"planetscope_roi_udm2_{year}"
     create_visualization(monthly_stats, output_base)
+    
+    # Temporal distribution analysis for usable images (0% cloud cover)
+    print("\n" + "="*50)
+    print("TEMPORAL DISTRIBUTION ANALYSIS")
+    print("="*50)
+    
+    temporal_analysis = analyze_temporal_distribution(per_scene_df, cloud_threshold=0.0)
+    if temporal_analysis:
+        create_temporal_distribution_plot(temporal_analysis, output_base)
+    else:
+        print("No usable images found for temporal distribution analysis")
+    
+    # Monthly temporal distribution analysis for usable images (0% cloud cover)
+    print("\n" + "="*50)
+    print("MONTHLY TEMPORAL DISTRIBUTION ANALYSIS")
+    print("="*50)
+    
+    monthly_temporal_analysis = analyze_monthly_temporal_distribution(per_scene_df, cloud_threshold=0.0)
+    if monthly_temporal_analysis:
+        create_monthly_temporal_distribution_plot(monthly_temporal_analysis, output_base)
+    else:
+        print("No usable images found for monthly temporal distribution analysis")
 
     print("\nDone.")
 
